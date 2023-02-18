@@ -6,9 +6,7 @@
             var numSquares = 100;
 
             var fadeOut = function (square) {
-                print("fading out")
                 var opacity = parseFloat(square.style.opacity);
-                print(opacity)
                 while (opacity > 1) {
                     square.style.opacity = opacity - 0.01;
                     setTimeout(fadeOut, 50);
