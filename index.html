@@ -22,11 +22,11 @@
             var squares = [];
             for (var i = 0; i < numSquares; i++) {
                 squares[i] = document.createElement('div');
-                squares[i].style.width = '10px';
-                squares[i].style.height = '10px';
+                squares[i].style.width = '100px';
+                squares[i].style.height = '100px';
                 squares[i].style.backgroundColor = '#FFFFFF';
                 squares[i].style.display = 'inline-block';
-                squares[i].style.margin = '0px';
+                squares[i].style.margin = '10px';
                 document.body.appendChild(squares[i]);
                 squares[i].addEventListener('mouseover', function () {
                     this.style.backgroundColor = '#000000';
