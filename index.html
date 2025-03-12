@@ -107,7 +107,7 @@
         // Replace these with your actual uploaded image paths
         const nameImages = [
             'images/header-name1.jpg', // First variation of handwritten name
-            '/api/placeholder/300/100'  // Second variation of handwritten name
+            'images/header-name2.jpg'  // Second variation of handwritten name
             // Add more variations as needed
         ];
 
@@ -125,6 +125,21 @@
         const headerNameElement = document.getElementById('headerName');
         const menuIconElement = document.getElementById('menuIcon');
         const sidebarElement = document.getElementById('sidebar');
+
+        // Preload all images to prevent flickering
+        function preloadImages(imageArray) {
+            const preloadedImages = [];
+            for (let i = 0; i < imageArray.length; i++) {
+                const img = new Image();
+                img.src = imageArray[i];
+                preloadedImages.push(img);
+            }
+            return preloadedImages;
+        }
+
+        // Preload all images when the page loads
+        const preloadedNameImages = preloadImages(nameImages);
+        const preloadedMenuImages = preloadImages(menuImages);
 
         // Function to cycle through handwritten name images
         function cycleNameImage() {
@@ -153,9 +168,12 @@
         // Add click event listener to menu icon
         menuIconElement.addEventListener('click', toggleSidebar);
 
-        // Set interval to change images every 2 seconds (1000 milliseconds)
-        setInterval(cycleNameImage, 1500);
-        setInterval(cycleMenuImage, 1505);
+        // Wait until images are loaded before starting the animation
+        window.addEventListener('load', function() {
+            // Set interval to change images with your timing
+            setInterval(cycleNameImage, 1500);
+            setInterval(cycleMenuImage, 1505);
+        });
     </script>
 </body>
 </html>
