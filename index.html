@@ -1,81 +1,161 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var numSquares = 10000;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Website</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: sans-serif;
+            overflow-x: hidden;
+        }
 
-            var randomColor = function () {
-                var r = Math.floor(Math.random() * 256);
-                var g = Math.floor(Math.random() * 256);
-                var b = Math.floor(Math.random() * 256);
-                return 'rgb(' + r + ',' + g + ',' + b + ')';
-            };
+        .menu-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-icon.open {
+            transform: rotate(90deg);
+        }
 
-            var fadeOut = function (square) {
-                var opacity = parseFloat(square.style.opacity);
-                while (opacity > 1) {
-                    square.style.opacity = opacity - 0.01;
-                    setTimeout(fadeOut, 50);
-                }
-            };
-            var squares = [];
-            for (var i = 0; i < numSquares; i++) {
-                squares[i] = document.createElement('div');
-                squares[i].style.width = '100px';
-                squares[i].style.height = '100px';
-                squares[i].style.backgroundColor = '#FFFFFF';
-                squares[i].style.display = 'inline-block';
-                squares[i].style.margin = '10px';
-                document.body.appendChild(squares[i]);
-                squares[i].addEventListener('mouseover', function () {
-                    this.style.backgroundColor = '#000000';
-                });
-                squares[i].addEventListener('mouseout', function () {
-                    this.style.backgroundColor = randomColor();
-                    fadeOut(this);
+        .header-container {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+        }
 
-                    <!-- this.style.opacity = opacity - 50; -->
-                });
-            }
+        .header-image {
+            height: 40px; /* Same height as the menu icon */
+        }
 
-            var squares = [];
-            for (var i = 0; i < numSquares; i++) {
-                squares[i] = document.createElement('div');
-                squares[i].style.width = '100px';
-                squares[i].style.height = '10000px';
-                squares[i].style.backgroundColor = '#FFFFFF';
-                squares[i].style.display = 'inline-block';
-                squares[i].style.margin = '10px';
-                document.body.appendChild(squares[i]);
-                squares[i].addEventListener('mouseout', fadeOut(this), 5000);
-            }
-        });
-    </script>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: white;
+            transition: left 0.3s ease;
+            z-index: 900;
+            border-right: 0px solid black;
+        }
+
+        .sidebar.open {
+            left: 0;
+            border-right: 1px solid black;
+        }
+
+        .sidebar-content {
+            padding: 80px 20px 20px;
+        }
+
+        .sidebar-link {
+            display: block;
+            margin-bottom: 15px;
+            color: #333;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.2s;
+        }
+
+        .sidebar-link:hover {
+            color: #666;
+        }
+
+        /* You can add more styles for your future portfolio section here */
+    </style>
 </head>
+<body>
+    <!-- Menu icon in the top left -->
+    <img id="menuIcon" class="menu-icon" src="/api/placeholder/40/40" alt="Menu">
 
-<!-- <body style="margin: 0;">
-    <div
-        style="background-color: black; position: fixed; bottom: 0; width: 100%; height: 20px; padding: 20px; opacity: .85; z-index: 1000;">
-        <svg id="Layer_1" data-name="Layer 1" height="40px" width="40px" style="top: -8px;
-            position: relative;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
-            <defs>
-                <style>
-                    .cls-1 {
-                        fill: #fff;
-                    }
-                </style>
-            </defs>
-            <title>openai-symbol-flat-white</title>
-            <path class="cls-1"
-                d="M617.24,354a126.36,126.36,0,0,0-10.86-103.79,127.8,127.8,0,0,0-137.65-61.32,126.36,126.36,0,0,0-95.31-42.49A127.81,127.81,0,0,0,251.5,234.89,126.4,126.4,0,0,0,167,296.19a127.82,127.82,0,0,0,15.72,149.86,126.36,126.36,0,0,0,10.86,103.79,127.81,127.81,0,0,0,137.65,61.32,126.36,126.36,0,0,0,95.31,42.49A127.81,127.81,0,0,0,548.5,565.11,126.4,126.4,0,0,0,633,503.81,127.82,127.82,0,0,0,617.24,354ZM426.58,620.49a94.79,94.79,0,0,1-60.85-22c.77-.42,2.12-1.16,3-1.7l101-58.34a16.42,16.42,0,0,0,8.3-14.37V381.69l42.69,24.65a1.52,1.52,0,0,1,.83,1.17V525.43A95.18,95.18,0,0,1,426.58,620.49ZM222.34,533.26A94.74,94.74,0,0,1,211,469.56c.75.45,2.06,1.25,3,1.79l101,58.34a16.44,16.44,0,0,0,16.59,0l123.31-71.2v49.3a1.53,1.53,0,0,1-.61,1.31L352.19,568.05A95.16,95.16,0,0,1,222.34,533.26ZM195.77,312.77a94.71,94.71,0,0,1,49.48-41.68c0,.87-.05,2.41-.05,3.48V391.25a16.41,16.41,0,0,0,8.29,14.36L376.8,476.8l-42.69,24.65a1.53,1.53,0,0,1-1.44.13l-102.11-59A95.16,95.16,0,0,1,195.77,312.77Zm350.74,81.62L423.2,323.19l42.69-24.64a1.53,1.53,0,0,1,1.44-.13l102.11,58.95a95.08,95.08,0,0,1-14.69,171.55c0-.88,0-2.42,0-3.49V408.75A16.4,16.4,0,0,0,546.51,394.39ZM589,330.44c-.75-.46-2.06-1.25-3-1.79L485,270.31a16.46,16.46,0,0,0-16.59,0l-123.31,71.2v-49.3a1.53,1.53,0,0,1,.61-1.31L447.81,232A95.07,95.07,0,0,1,589,330.44ZM321.89,418.31l-42.7-24.65a1.52,1.52,0,0,1-.83-1.17V274.57a95.07,95.07,0,0,1,155.9-73c-.77.42-2.11,1.16-3,1.7l-101,58.34a16.41,16.41,0,0,0-8.3,14.36Zm23.19-50L400,336.59l54.92,31.7v63.42L400,463.41l-54.92-31.7Z" />
-        </svg>
-        <div
-            style="display: inline-block; color: white; vertical-align: top; margin-top: 4px; font-family: Helvetica, sans-serif;">
-            Code generated by <a style="color: white; text-decoration: none; font-weight: bold;"
-                href="https://openai.com/blog/openai-codex/">OpenAI Codex</a>
+    <!-- Header with name in handwriting -->
+    <div class="header-container">
+        <img id="headerName" class="header-image" src="/api/placeholder/300/100" alt="Handwritten Name">
+    </div>
+    
+    <!-- Sidebar Menu -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-content">
+            <a href="#" class="sidebar-link">Home</a>
+            <a href="#" class="sidebar-link">Photography</a>
+            <a href="#" class="sidebar-link">Film</a>
+            <a href="#" class="sidebar-link">About</a>
+            <a href="#" class="sidebar-link">Contact</a>
         </div>
     </div>
-</body> -->
 
+    <script>
+        // Array of image sources for your handwritten name
+        // Replace these with your actual uploaded image paths
+        const nameImages = [
+            '/api/placeholder/300/100', // First variation of handwritten name
+            '/api/placeholder/300/100'  // Second variation of handwritten name
+            // Add more variations as needed
+        ];
+
+        // Array of image sources for your menu icon
+        // Replace these with your actual uploaded image paths
+        const menuImages = [
+            '/api/placeholder/40/40', // First variation of menu icon
+            '/api/placeholder/40/40'  // Second variation of menu icon
+            // Add more variations as needed
+        ];
+
+        let nameIndex = 0;
+        let menuIndex = 0;
+        let isSidebarOpen = false;
+        const headerNameElement = document.getElementById('headerName');
+        const menuIconElement = document.getElementById('menuIcon');
+        const sidebarElement = document.getElementById('sidebar');
+
+        // Function to cycle through handwritten name images
+        function cycleNameImage() {
+            nameIndex = (nameIndex + 1) % nameImages.length;
+            headerNameElement.src = nameImages[nameIndex];
+        }
+
+        // Function to cycle through menu icon images
+        function cycleMenuImage() {
+            menuIndex = (menuIndex + 1) % menuImages.length;
+            menuIconElement.src = menuImages[menuIndex];
+        }
+
+        // Function to toggle sidebar
+        function toggleSidebar() {
+            isSidebarOpen = !isSidebarOpen;
+            if (isSidebarOpen) {
+                sidebarElement.classList.add('open');
+                menuIconElement.classList.add('open');
+            } else {
+                sidebarElement.classList.remove('open');
+                menuIconElement.classList.remove('open');
+            }
+        }
+
+        // Add click event listener to menu icon
+        menuIconElement.addEventListener('click', toggleSidebar);
+
+        // Set interval to change images every 0.5 seconds (500 milliseconds)
+        setInterval(cycleNameImage, 500);
+        setInterval(cycleMenuImage, 500);
+    </script>
+</body>
 </html>
