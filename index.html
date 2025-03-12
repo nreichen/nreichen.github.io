@@ -106,7 +106,7 @@
         // Array of image sources for your handwritten name
         // Replace these with your actual uploaded image paths
         const nameImages = [
-            '/api/placeholder/300/100', // First variation of handwritten name
+            'images/header-name1.jpg', // First variation of handwritten name
             '/api/placeholder/300/100'  // Second variation of handwritten name
             // Add more variations as needed
         ];
@@ -153,9 +153,9 @@
         // Add click event listener to menu icon
         menuIconElement.addEventListener('click', toggleSidebar);
 
-        // Set interval to change images every 0.5 seconds (500 milliseconds)
-        setInterval(cycleNameImage, 500);
-        setInterval(cycleMenuImage, 500);
+        // Set interval to change images every 2 seconds (1000 milliseconds)
+        setInterval(cycleNameImage, 1500);
+        setInterval(cycleMenuImage, 1505);
     </script>
 </body>
 </html>
