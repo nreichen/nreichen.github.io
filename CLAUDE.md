@@ -29,6 +29,12 @@ of a "Not Secure" badge on this setup.
 
 ## HTTPS
 
+Pages settings live at
+**https://github.com/nreichen/nreichen.github.io/settings/pages** — the
+*repository* Settings tab, not the account-level `github.com/settings/pages`
+page. The account-level one only handles "Verified domains", an optional
+anti-takeover feature that is unrelated to certs and HTTPS.
+
 GitHub provisions a free Let's Encrypt cert for the custom domain once DNS
 resolves to the IPs above. Then check **Settings -> Pages -> Enforce HTTPS**
 in the repo so `http://` redirects to `https://`. If that checkbox is greyed
