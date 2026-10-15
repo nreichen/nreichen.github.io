@@ -92,27 +92,32 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: var(--photo-spacing);
-            align-items: start;
         }
 
+        /* Square cells so vertical and horizontal photos show at the same
+           size: each photo's long edge fills the cell, uncropped and centered */
         .photo {
-            position: relative;
             margin: 0;
-            /* Placeholder shape until the image loads, then its real proportions */
-            aspect-ratio: 3 / 2;
+            aspect-ratio: 1 / 1;
+            display: grid;
+            place-items: center;
             background-color: #f2f2f2;
-            overflow: hidden;
         }
 
         .photo.loaded {
-            aspect-ratio: auto;
             background-color: transparent;
+        }
+
+        /* Wraps the image tightly so the caption sits on the photo itself */
+        .photo-frame {
+            position: relative;
+            overflow: hidden;
         }
 
         .photo img {
             display: block;
             width: 100%;
-            height: auto;
+            height: 100%;
             opacity: 0;
             transition: opacity 0.4s ease;
         }
@@ -273,7 +278,17 @@
             const img = document.createElement('img');
             img.alt = caption ? 'Film photograph, ' + caption : 'Film photograph';
             img.decoding = 'async';
+            const frame = document.createElement('div');
+            frame.className = 'photo-frame';
+
             img.addEventListener('load', function() {
+                // Size the frame to the photo's proportions, long edge filling the cell
+                frame.style.aspectRatio = img.naturalWidth + ' / ' + img.naturalHeight;
+                if (img.naturalWidth >= img.naturalHeight) {
+                    frame.style.width = '100%';
+                } else {
+                    frame.style.height = '100%';
+                }
                 figure.classList.add('loaded');
             });
             img.addEventListener('error', function() {
@@ -281,13 +296,14 @@
                 figure.remove();
             });
             img.src = photo.src;
-            figure.appendChild(img);
+            frame.appendChild(img);
 
             if (caption) {
                 const figcaption = document.createElement('figcaption');
                 figcaption.textContent = caption;
-                figure.appendChild(figcaption);
+                frame.appendChild(figcaption);
             }
+            figure.appendChild(frame);
 
             // Touch screens have no hover, so a tap toggles the caption
             figure.addEventListener('click', function() {
