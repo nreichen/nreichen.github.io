@@ -66,7 +66,9 @@ page, so the header and sidebar aren't duplicated.
 - Photo list: `photos.js` (`window.PHOTOS`), displayed in file order. Each
   entry is `{ src, season, year, location? }`. `src` is a repo path under
   `images/photography/` or a full `https://` URL from an image host.
-- 2-column grid, loaded 8 at a time as the bottom nears the screen
+- 2-column grid spanning the full window width. `--photo-spacing` (20px) sets
+  the gap between photos and the left/right/bottom margins alike, so all
+  spacing is equal. Photos load 8 at a time as the bottom nears the screen
   (`PHOTOS_PER_BATCH`). Photos keep their own proportions — nothing is
   cropped — so a portrait next to a landscape leaves white space under the
   landscape.
