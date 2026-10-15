@@ -57,7 +57,32 @@ If remove/re-add doesn't work, check the apex for:
   prefers IPv6 when one exists, so a stale AAAA breaks validation while
   GitHub's DNS check (A records only) still passes.
 
+## Photography page
+
+Lives inside `index.html` as a hidden `<main id="photography">`, shown when the
+URL hash is `#photography` (the sidebar link). Home is `#`. No separate HTML
+page, so the header and sidebar aren't duplicated.
+
+- Photo list: `photos.js` (`window.PHOTOS`), displayed in file order. Each
+  entry is `{ src, season, year, location? }`. `src` is a repo path under
+  `images/photography/` or a full `https://` URL from an image host.
+- 2-column grid, loaded 8 at a time as the bottom nears the screen
+  (`PHOTOS_PER_BATCH`). Photos keep their own proportions — nothing is
+  cropped — so a portrait next to a landscape leaves white space under the
+  landscape.
+- Caption ("Fall 2024 · Ann Arbor, MI") fades in on hover, on keyboard focus,
+  or on tap for touch screens. A photo whose `src` fails to load is dropped
+  from the grid and logged to the console.
+- The menu icon is `position: fixed` so the sidebar stays reachable while
+  scrolled down the gallery.
+
 ## Gotchas
+
+- The menu icon is broken: it starts on `/api/placeholder/40/40` and cycles
+  through `images/menu/menu-icon1.jpg` / `menu-icon2.jpg`, none of which exist
+  in the repo, so it renders as the alt text "Menu" (still clickable).
+- Git LFS does not work for site images — GitHub Pages serves the LFS pointer
+  file, not the image.
 
 - Keep all page assets on relative or `https://` URLs. Any `http://` asset
   triggers a mixed-content warning even when the page itself is served over
