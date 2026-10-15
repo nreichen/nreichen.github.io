@@ -13,9 +13,8 @@ is present, so GitHub serves the files as-is rather than running Jekyll.
 
 ## DNS records GitHub Pages expects
 
-Status as of 2026-09-18: GitHub Pages reports **"DNS check successful"**, so the
-A records below are correct and GoDaddy forwarding is NOT in play. The open
-problem is certificate issuance (see HTTPS below).
+GitHub Pages reports **"DNS check successful"** — the A records below are
+correct and GoDaddy forwarding is NOT in play.
 
 Apex (`nathanreichen.com`) — four A records, **not** a GoDaddy "Forwarding" rule:
 
@@ -43,24 +42,20 @@ GitHub provisions a free Let's Encrypt cert for the custom domain once DNS
 resolves to the IPs above. Then tick **Enforce HTTPS** so `http://` redirects
 to `https://`.
 
-**Open issue:** as of 2026-09-18 that checkbox reads "Unavailable for your site
-because a certificate has not yet been issued" — despite the DNS check passing
-and the `CNAME` file having been in place since 2025-03-12. An 18-month stall
-is not normal provisioning latency; something is blocking issuance.
+**Resolved 2026-10-15.** The cert had never been issued (the checkbox read
+"a certificate has not yet been issued" for ~18 months despite DNS passing).
+Removing and re-adding the custom domain in Pages settings retriggered
+provisioning and fixed it — visible on `main` as a `Delete CNAME` /
+`Create CNAME` commit pair. GitHub does not retry a failed provisioning job on
+its own, so that is the first thing to try if it ever recurs.
 
-Fixes, in order:
+If remove/re-add doesn't work, check the apex for:
 
-1. Remove the custom domain in Pages settings, save, re-add it, save. This is
-   the only way to retrigger a provisioning job that failed earlier — GitHub
-   does not retry on its own. Note this deletes and recreates the repo's
-   `CNAME` file as real commits on `main`, so `git pull` afterwards.
-2. Check for a **CAA record** on the apex. If one exists and does not authorize
-   `letsencrypt.org`, issuance fails permanently and silently. Delete it or add
-   `letsencrypt.org`.
-3. Check for **AAAA records** on the apex. Pages has no IPv6 there, but Let's
-   Encrypt prefers IPv6 when an AAAA exists, so a stale one breaks domain
-   validation while GitHub's DNS check (A records only) still passes. Delete
-   any AAAA on the apex.
+- A **CAA record** that doesn't authorize `letsencrypt.org` — blocks issuance
+  silently.
+- Any **AAAA record** — Pages has no IPv6 on the apex, and Let's Encrypt
+  prefers IPv6 when one exists, so a stale AAAA breaks validation while
+  GitHub's DNS check (A records only) still passes.
 
 ## Gotchas
 
