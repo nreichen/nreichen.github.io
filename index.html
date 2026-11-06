@@ -65,7 +65,9 @@
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: var(--background-image) center / cover no-repeat;
+            /* 35% across keeps the mountain's main peak in view on narrow
+               screens; wide screens show the picture's full width anyway */
+            background: var(--background-image) 35% center / cover no-repeat;
         }
 
         .menu-icon {

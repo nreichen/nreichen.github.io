@@ -86,9 +86,14 @@ dark values appear twice: once for the device setting, once for the toggle):
 
 The picture covers the whole window behind every page, fixed in place while
 scrolling (a `position: fixed` layer on `body::before`, since iOS ignores
-`background-attachment: fixed`). It's cropped to fill the screen, so the center
-of the picture is what always shows. If a picture file is missing, that mode
-falls back to its plain color. Pictures load on every visit, so keep them
+`background-attachment: fixed`). It's cropped to fill the screen. Both
+pictures are the same misty mountain ridge (day and night versions, from the
+owner's film scans), with the main peak about a third of the way across; the
+crop is anchored at 35% horizontally so phones and portrait tablets, which only
+see a narrow vertical strip, keep that peak in view. Wide screens show the full
+width and crop top and bottom instead. If you swap in a differently composed
+picture, revisit that 35%. If a picture file is missing, that mode falls back
+to its plain color. Pictures load on every visit, so keep them
 around 2560px wide and ~1 MB or less — film grain compresses poorly, and
 grayscale scans should be saved as single-channel JPEGs.
 
