@@ -70,9 +70,13 @@ If remove/re-add doesn't work, check the apex for:
 
 ## Background picture and light/dark mode
 
-The site has a light and a dark version, chosen automatically from the
-visitor's device setting (`prefers-color-scheme`). The colors and picture for
-each are CSS variables at the top of `index.html`'s `<style>`:
+The site has a light and a dark version. The visitor's device setting
+(`prefers-color-scheme`) picks one until they click the night mode toggle (a
+placeholder moon icon, top right). That sets `data-theme="light"|"dark"` on
+`<html>` and saves it in `localStorage` (`theme`); a small script at the top of
+`<head>` re-applies it before the page draws on later visits. The colors and
+picture for each are CSS variables at the top of `index.html`'s `<style>` (the
+dark values appear twice: once for the device setting, once for the toggle):
 
 | | Light (default) | Dark |
 |---|---|---|
