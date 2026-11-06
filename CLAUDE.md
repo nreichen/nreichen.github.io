@@ -11,6 +11,17 @@
 The site is plain static HTML (`index.html` + `images/`), no build step. `.nojekyll`
 is present, so GitHub serves the files as-is rather than running Jekyll.
 
+## Workflow
+
+Commit and push directly to `main` (owner's preference since 2026-11-06) — no
+feature branches or pull requests. `main` is what GitHub Pages serves, so
+every push is live within about a minute. Before pushing, test in a browser:
+serve the repo with `python3 -m http.server` and check light and dark mode
+(`prefers-color-scheme`) at desktop and phone widths.
+
+The owner uploads images through github.com ("Add files via upload"), which
+commits straight to `main`, so pull before starting work.
+
 ## DNS records GitHub Pages expects
 
 GitHub Pages reports **"DNS check successful"** — the A records below are
