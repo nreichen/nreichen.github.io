@@ -344,17 +344,6 @@
             font-size: 16px;
             line-height: 1.6;
         }
-
-        .video-link {
-            display: inline-block;
-            margin-top: 16px;
-            color: inherit;
-            font-size: 15px;
-        }
-
-        .video-link:hover {
-            opacity: 0.6;
-        }
     </style>
 </head>
 <body>
@@ -733,16 +722,8 @@
                 });
                 article.appendChild(blurb);
             }
-
-            if (id) {
-                const link = document.createElement('a');
-                link.className = 'video-link';
-                link.href = 'https://www.youtube.com/watch?v=' + id;
-                link.target = '_blank';
-                link.rel = 'noopener';
-                link.textContent = 'Watch on YouTube ↗';
-                article.appendChild(link);
-            }
+            // No separate YouTube link: the player's own title and logo open
+            // the video on YouTube
             return article;
         }
 

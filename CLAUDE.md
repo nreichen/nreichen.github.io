@@ -213,7 +213,8 @@ In the owner's Drive, under **Film**:
 
 `<main id="super8">`, shown at `#super8`. One project per row in a centered
 column (max 960px): the embedded YouTube video, then title, when/where (same
-format as the photo captions), a paragraph, and a "Watch on YouTube ↗" link.
+format as the photo captions), and a paragraph. No separate "Watch on
+YouTube" link (owner's call) — the player's title and logo click through.
 
 - Project list: `super8.js` (`window.SUPER8`), shown in file order. Each entry
   is `{ youtube, title?, season?, year?, location?, blurb?, ratio? }`.

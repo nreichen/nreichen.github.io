@@ -1,7 +1,7 @@
 // Super 8 projects for the Super 8 page, shown top-to-bottom in this order.
 // Each one is an embedded YouTube video (autoplays muted while on screen),
-// with a title, when it was shot, a paragraph about it, and a
-// "Watch on YouTube" link.
+// with a title, when it was shot, and a paragraph about it. Visitors get to
+// YouTube through the player itself.
 //
 // To add a project, add an entry below:
 //   youtube   any YouTube link (youtu.be/…, youtube.com/watch?v=…) — required
