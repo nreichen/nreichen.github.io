@@ -125,6 +125,20 @@ keeping `class="logo-frame"` (and give the title's images `alt` text).
 `images/header-name1.jpg` / `header-name2.jpg` are the old header images and
 are no longer used.
 
+## Browser tab (title and icon)
+
+The tab reads "nathan·reichen". The icon is a placeholder lowercase "n" in
+Cousine (drawn a little bolder so it reads at 16px), made from the bundled
+font:
+
+- `favicon.svg` — what Chrome, Edge and Firefox use. A `prefers-color-scheme`
+  rule inside it turns the "n" white when the browser is in dark mode.
+- `favicon.ico` (16/32/48px) — black "n" on a white rounded tile, for
+  browsers without SVG icons, and what `/favicon.ico` requests get.
+- `apple-touch-icon.png` (180px) — same, square, for iPhone home screens.
+
+When the owner draws a logo, replace all three (and keep the file names).
+
 ## Sidebar
 
 Links: Home (`#`) and Film (`#film`). More pages will be added later.
