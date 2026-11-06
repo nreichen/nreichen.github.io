@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             background-color: white;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -17,8 +17,19 @@
             overflow-x: hidden;
         }
 
+        /* Site-wide background picture, fixed in place on every page and screen
+           size. Replace images/background.jpg to change it. A fixed layer is
+           used instead of background-attachment: fixed, which iPhones ignore. */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: url('images/background.jpg') center / cover no-repeat;
+        }
+
         .menu-icon {
-            position: absolute;
+            position: fixed;
             top: 20px;
             left: 20px;
             width: 40px;
@@ -79,7 +90,77 @@
             color: #666;
         }
 
-        /* You can add more styles for your future portfolio section here */
+        /* Photography page */
+        .gallery-page {
+            /* Same space between photos as between photos and the screen edges */
+            --photo-spacing: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 100px var(--photo-spacing) var(--photo-spacing);
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--photo-spacing);
+        }
+
+        /* Square cells so vertical and horizontal photos show at the same
+           size: each photo's long edge fills the cell, uncropped and centered */
+        .photo {
+            margin: 0;
+            aspect-ratio: 1 / 1;
+            display: grid;
+            place-items: center;
+            background-color: #f2f2f2;
+        }
+
+        .photo.loaded {
+            background-color: transparent;
+        }
+
+        /* Wraps the image tightly so the caption sits on the photo itself */
+        .photo-frame {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .photo.loaded img {
+            opacity: 1;
+        }
+
+        .photo figcaption {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 24px 12px 10px;
+            color: white;
+            font-size: 14px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+        }
+
+        .photo:hover figcaption,
+        .photo:focus-visible figcaption,
+        .photo.show-caption figcaption {
+            opacity: 1;
+        }
+
+        .gallery-empty {
+            color: #666;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -95,13 +176,21 @@
     <div id="sidebar" class="sidebar">
         <div class="sidebar-content">
             <a href="#" class="sidebar-link">Home</a>
-            <a href="#" class="sidebar-link">Photography</a>
+            <a href="#photography" class="sidebar-link">Photography</a>
             <a href="#" class="sidebar-link">Film</a>
             <a href="#" class="sidebar-link">About</a>
             <a href="#" class="sidebar-link">Contact</a>
         </div>
     </div>
 
+    <!-- Photography page, shown when the URL ends in #photography -->
+    <main id="photography" class="gallery-page" hidden>
+        <div id="photoGrid" class="photo-grid"></div>
+        <div id="gallerySentinel"></div>
+    </main>
+
+    <!-- List of film photos; edit photos.js to add more -->
+    <script src="photos.js"></script>
     <script>
         // Array of image sources for your handwritten name
         // Replace these with your actual uploaded image paths
@@ -167,6 +256,114 @@
 
         // Add click event listener to menu icon
         menuIconElement.addEventListener('click', toggleSidebar);
+
+        // Close the sidebar after picking a page
+        document.querySelectorAll('.sidebar-link').forEach(function(link) {
+            link.addEventListener('click', function() {
+                if (isSidebarOpen) toggleSidebar();
+            });
+        });
+
+        // ---- Photography page ----
+        const photos = window.PHOTOS || [];
+        const PHOTOS_PER_BATCH = 8;
+        const photographyElement = document.getElementById('photography');
+        const photoGridElement = document.getElementById('photoGrid');
+        const sentinelElement = document.getElementById('gallerySentinel');
+        let photosShown = 0;
+        let galleryStarted = false;
+        let galleryObserver = null;
+
+        // e.g. "Fall 2024 · Ann Arbor, MI", or "Fall 2024" with no location
+        function captionFor(photo) {
+            const when = [photo.season, photo.year].filter(Boolean).join(' ');
+            return [when, photo.location].filter(Boolean).join(' · ');
+        }
+
+        function createPhotoElement(photo) {
+            const caption = captionFor(photo);
+            const figure = document.createElement('figure');
+            figure.className = 'photo';
+            figure.tabIndex = 0;
+
+            const img = document.createElement('img');
+            img.alt = caption ? 'Film photograph, ' + caption : 'Film photograph';
+            img.decoding = 'async';
+            const frame = document.createElement('div');
+            frame.className = 'photo-frame';
+
+            img.addEventListener('load', function() {
+                // Size the frame to the photo's proportions, long edge filling the cell
+                frame.style.aspectRatio = img.naturalWidth + ' / ' + img.naturalHeight;
+                if (img.naturalWidth >= img.naturalHeight) {
+                    frame.style.width = '100%';
+                } else {
+                    frame.style.height = '100%';
+                }
+                figure.classList.add('loaded');
+            });
+            img.addEventListener('error', function() {
+                console.warn('Could not load photo:', photo.src);
+                figure.remove();
+            });
+            img.src = photo.src;
+            frame.appendChild(img);
+
+            if (caption) {
+                const figcaption = document.createElement('figcaption');
+                figcaption.textContent = caption;
+                frame.appendChild(figcaption);
+            }
+            figure.appendChild(frame);
+
+            // Touch screens have no hover, so a tap toggles the caption
+            figure.addEventListener('click', function() {
+                figure.classList.toggle('show-caption');
+            });
+            return figure;
+        }
+
+        function showNextBatch() {
+            const batch = photos.slice(photosShown, photosShown + PHOTOS_PER_BATCH);
+            batch.forEach(function(photo) {
+                photoGridElement.appendChild(createPhotoElement(photo));
+            });
+            photosShown += batch.length;
+
+            if (photosShown >= photos.length) {
+                galleryObserver.disconnect();
+            } else {
+                // Re-observe so a still-visible sentinel triggers the next batch
+                galleryObserver.unobserve(sentinelElement);
+                galleryObserver.observe(sentinelElement);
+            }
+        }
+
+        function startGallery() {
+            if (galleryStarted) return;
+            galleryStarted = true;
+
+            if (photos.length === 0) {
+                photoGridElement.insertAdjacentHTML('afterend',
+                    '<p class="gallery-empty">Film photos coming soon.</p>');
+                return;
+            }
+
+            // Load the next batch once the bottom of the grid is near the screen
+            galleryObserver = new IntersectionObserver(function(entries) {
+                if (entries[0].isIntersecting) showNextBatch();
+            }, { rootMargin: '800px 0px' });
+            galleryObserver.observe(sentinelElement);
+        }
+
+        function showCurrentPage() {
+            const onPhotography = window.location.hash === '#photography';
+            photographyElement.hidden = !onPhotography;
+            if (onPhotography) startGallery();
+        }
+
+        window.addEventListener('hashchange', showCurrentPage);
+        showCurrentPage();
 
         // Wait until images are loaded before starting the animation
         window.addEventListener('load', function() {
