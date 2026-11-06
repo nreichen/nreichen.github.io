@@ -244,7 +244,8 @@
             overflow: hidden;
         }
 
-        .photo img {
+        .photo img,
+        .photo video {
             display: block;
             width: 100%;
             height: 100%;
@@ -252,7 +253,8 @@
             transition: opacity 0.4s ease;
         }
 
-        .photo.loaded img {
+        .photo.loaded img,
+        .photo.loaded video {
             opacity: 1;
         }
 
@@ -378,6 +380,10 @@
         deviceDarkQuery.addEventListener('change', updateThemeToggle);
         updateThemeToggle();
 
+        // Visitors who ask their device to reduce motion get still logos and
+        // clips that only play when tapped
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         // ---- Film page (photo gallery) ----
         const photos = window.PHOTOS || [];
         const PHOTOS_PER_BATCH = 8;
@@ -394,34 +400,72 @@
             return [when, photo.location].filter(Boolean).join(' · ');
         }
 
+        // Clips (the RETO 3D loops) play like GIFs, but only while on screen
+        const clipObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.play().catch(function() {});
+                } else {
+                    entry.target.pause();
+                }
+            });
+        }, { threshold: 0.25 });
+
+        function isClip(photo) {
+            return /\.(mp4|webm|mov)$/i.test(photo.src);
+        }
+
         function createPhotoElement(photo) {
             const caption = captionFor(photo);
+            const label = caption ? 'Film photograph, ' + caption : 'Film photograph';
+            const clip = isClip(photo);
             const figure = document.createElement('figure');
             figure.className = 'photo';
             figure.tabIndex = 0;
-
-            const img = document.createElement('img');
-            img.alt = caption ? 'Film photograph, ' + caption : 'Film photograph';
-            img.decoding = 'async';
             const frame = document.createElement('div');
             frame.className = 'photo-frame';
 
-            img.addEventListener('load', function() {
-                // Size the frame to the photo's proportions, long edge filling the cell
-                frame.style.aspectRatio = img.naturalWidth + ' / ' + img.naturalHeight;
-                if (img.naturalWidth >= img.naturalHeight) {
+            // Size the frame to the media's proportions, long edge filling the cell
+            function showMedia(width, height) {
+                frame.style.aspectRatio = width + ' / ' + height;
+                if (width >= height) {
                     frame.style.width = '100%';
                 } else {
                     frame.style.height = '100%';
                 }
                 figure.classList.add('loaded');
-            });
-            img.addEventListener('error', function() {
+            }
+
+            let media;
+            if (clip) {
+                media = document.createElement('video');
+                // iPhones only play inline, without a tap, when these are attributes
+                media.muted = true;
+                media.setAttribute('muted', '');
+                media.setAttribute('playsinline', '');
+                media.loop = true;
+                media.preload = 'metadata';
+                if (photo.poster) media.poster = photo.poster;
+                media.setAttribute('aria-label', label);
+                media.addEventListener('loadedmetadata', function() {
+                    showMedia(media.videoWidth, media.videoHeight);
+                    if (!reduceMotion) clipObserver.observe(media);
+                });
+            } else {
+                media = document.createElement('img');
+                media.alt = label;
+                media.decoding = 'async';
+                media.addEventListener('load', function() {
+                    showMedia(media.naturalWidth, media.naturalHeight);
+                });
+            }
+            media.addEventListener('error', function() {
                 console.warn('Could not load photo:', photo.src);
+                clipObserver.unobserve(media);
                 figure.remove();
             });
-            img.src = photo.src;
-            frame.appendChild(img);
+            media.src = photo.src;
+            frame.appendChild(media);
 
             if (caption) {
                 const figcaption = document.createElement('figcaption');
@@ -431,8 +475,16 @@
             figure.appendChild(frame);
 
             // Touch screens have no hover, so a tap toggles the caption
+            // (and, with reduced motion on, plays or pauses a clip)
             figure.addEventListener('click', function() {
                 figure.classList.toggle('show-caption');
+                if (clip && reduceMotion) {
+                    if (media.paused) {
+                        media.play().catch(function() {});
+                    } else {
+                        media.pause();
+                    }
+                }
             });
             return figure;
         }
@@ -486,7 +538,6 @@
         // Visitors who ask their device to reduce motion see them hold still.
         const LOGO_SWAP_MIN_MS = 300;
         const LOGO_SWAP_MAX_MS = 1500;
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const logoTimers = new Map();
 
         function startSwapping(logo) {

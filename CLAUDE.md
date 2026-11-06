@@ -137,8 +137,24 @@ hash is `#film` (the sidebar's Film link). The page's first address,
 and sidebar aren't duplicated.
 
 - Photo list: `photos.js` (`window.PHOTOS`), displayed in file order. Each
-  entry is `{ src, season, year, location? }`. `src` is a repo path under
-  `images/photography/` or a full `https://` URL from an image host.
+  entry is `{ src, season, year, location?, poster? }`. `src` is a repo path
+  under `images/photography/` or a full `https://` URL from an image host.
+  A `src` ending in `.mp4` is a clip (see below) and `poster` is its still.
+- Current contents (imported 2026-11-06): 231 film photos and 29 RETO "3D"
+  clips, newest first. Files are named by their 5-digit number from the Drive
+  folder (`00450.jpg` is `00450 …` in Drive); the numbers count by tens from
+  00010 = newest. Where Google Photos had an `-edited` copy, the site uses it.
+  Display order comes from `photos.js`, not the file names, so a newer photo
+  can go at the top under any name.
+- Site copies are made from the Drive originals: EXIF rotation baked in
+  (00780–00810 were stored sideways with a rotate flag), long edge 1600px,
+  progressive JPEG quality 80, metadata stripped (~330 KB each). Clips are
+  silent H.264 MP4 (CRF 23, `+faststart`, ~400 KB) with a first-frame poster
+  JPEG of the same number.
+- Captions are season + year from each photo's Google Takeout date (read in
+  Ann Arbor time). For some scans that may be the upload date rather than
+  when the photo was taken — the owner is correcting them, and adding
+  locations, in a caption sheet.
 - 2-column grid of square cells spanning the full window width.
   `--photo-spacing` (20px) sets the gap between cells and the
   left/right/bottom margins alike. Each photo is fitted uncropped and
@@ -148,8 +164,23 @@ and sidebar aren't duplicated.
 - Caption ("Fall 2024 · Ann Arbor, MI") fades in on hover, on keyboard focus,
   or on tap for touch screens. A photo whose `src` fails to load is dropped
   from the grid and logged to the console.
+- Clips play like GIFs (muted, looping, inline) but only while at least a
+  quarter of one is on screen, so off-screen clips don't burn battery. With
+  reduced motion on they show the poster and a tap plays/pauses them.
 - The menu and moon buttons are `position: fixed` so they stay reachable
   while scrolled down the gallery.
+
+### Where the photos come from (Google Drive)
+
+In the owner's Drive, under **Film**:
+
+- **Film Photos** — the originals from a Google Photos Takeout, renamed
+  `NNNNN original-name` (5 digits, newest first, counting by tens; edited
+  copies share their original's number). Photos and clips only.
+- **Film Photos – Takeout data** — the Takeout `.supplemental-metadata.json`
+  files (dates, etc.) moved out of the way.
+- **Film Favorites** — the owner's picks (empty so far; what favorites do
+  on the site is undecided).
 
 ## Gotchas
 
