@@ -1,4 +1,4 @@
-// Film photos for the Photography page, shown top-to-bottom in this order.
+// Film photos for the Film page, shown top-to-bottom in this order.
 //
 // To add a photo:
 //   1. Put the image file in images/photography/, or upload it to an image

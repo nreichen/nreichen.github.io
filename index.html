@@ -70,49 +70,10 @@
             background: var(--background-image) 35% center / cover no-repeat;
         }
 
-        .menu-icon {
+        /* Menu and night mode buttons: same size, color and shadow */
+        .icon-button {
             position: fixed;
             top: 20px;
-            left: 20px;
-            width: 40px;
-            height: 40px;
-            box-sizing: border-box;
-            padding: 0 4px;
-            border: 0;
-            background: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 7px;
-            cursor: pointer;
-            z-index: 1000;
-            transition: transform 0.3s ease;
-            /* Keeps the bars visible when they pass over a photo */
-            filter: drop-shadow(0 1px 2px var(--icon-shadow));
-        }
-
-        .menu-icon span {
-            display: block;
-            height: 3px;
-            border-radius: 2px;
-            background-color: var(--text-color);
-            transition: background-color 0.3s ease;
-        }
-
-        .menu-icon.open {
-            transform: rotate(90deg);
-        }
-
-        /* Dark bars while open, so the icon shows against the white sidebar */
-        .menu-icon.open span {
-            background-color: #333;
-        }
-
-        /* Night mode toggle (placeholder moon icon) */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
             width: 40px;
             height: 40px;
             box-sizing: border-box;
@@ -122,14 +83,48 @@
             color: var(--text-color);
             cursor: pointer;
             z-index: 1000;
+            /* Keeps the icons visible when they pass over a photo */
             filter: drop-shadow(0 1px 2px var(--icon-shadow));
         }
 
-        .theme-toggle svg {
+        .icon-button svg {
             display: block;
             width: 100%;
             height: 100%;
             fill: currentColor;
+        }
+
+        .menu-icon {
+            left: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-icon.open {
+            transform: rotate(90deg);
+        }
+
+        .theme-toggle {
+            right: 20px;
+        }
+
+        /* Logos (title, menu, moon) each have two drawings stacked in the same
+           spot; the script swaps which one shows at random intervals */
+        .logo {
+            display: grid;
+            place-items: center;
+        }
+
+        .icon-button.logo {
+            grid-template: 100% / 100%;
+        }
+
+        .logo-frame {
+            grid-area: 1 / 1;
+        }
+
+        .logo:not(.show-alt) > .logo-frame:nth-child(2),
+        .logo.show-alt > .logo-frame:nth-child(1) {
+            visibility: hidden;
         }
 
         .header-container {
@@ -141,25 +136,39 @@
             justify-content: center;
         }
 
-        .header-image {
-            height: 40px; /* Same height as the menu icon */
+        /* Site title (placeholder: the same name in two fonts) */
+        .site-title {
+            margin: 0;
+            height: 40px; /* Same height as the icons */
+            font-size: 26px;
+            font-weight: normal;
+            line-height: 40px;
+            white-space: nowrap;
+            color: var(--text-color);
+            text-shadow: 0 1px 2px var(--icon-shadow);
         }
 
+        .title-font-a {
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        .title-font-b {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Sidebar menu: no panel, just links over the background */
         .sidebar {
             position: fixed;
             top: 0;
             left: -250px;
             width: 250px;
             height: 100%;
-            background-color: white;
             transition: left 0.3s ease;
             z-index: 900;
-            border-right: 0px solid black;
         }
 
         .sidebar.open {
             left: 0;
-            border-right: 1px solid black;
         }
 
         .sidebar-content {
@@ -169,17 +178,19 @@
         .sidebar-link {
             display: block;
             margin-bottom: 15px;
-            color: #333;
+            color: var(--text-color);
             text-decoration: none;
             font-size: 18px;
-            transition: color 0.2s;
+            /* Keeps the links readable over photos */
+            text-shadow: 0 1px 2px var(--icon-shadow);
+            transition: opacity 0.2s;
         }
 
         .sidebar-link:hover {
-            color: #666;
+            opacity: 0.6;
         }
 
-        /* Photography page */
+        /* Film page (photo gallery) */
         .gallery-page {
             /* Same space between photos as between photos and the screen edges */
             --photo-spacing: 20px;
@@ -253,34 +264,41 @@
     </style>
 </head>
 <body>
-    <!-- Night mode toggle in the top right (placeholder moon icon) -->
-    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Night mode" aria-pressed="false">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <!-- The title, menu, and moon are "logos": each holds two drawings that
+         swap at random so hand-drawn versions look alive. These are
+         placeholders; to use drawings, replace each pair with two <img>s
+         that keep the class="logo-frame". -->
+
+    <!-- Night mode toggle in the top right -->
+    <button id="themeToggle" class="icon-button theme-toggle logo" type="button" aria-label="Night mode" aria-pressed="false">
+        <svg class="logo-frame" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="logo-frame" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" transform="rotate(-12 12 12)"/></svg>
     </button>
 
-    <!-- Menu icon in the top left -->
-    <button id="menuIcon" class="menu-icon" type="button" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
+    <!-- Menu button in the top left -->
+    <button id="menuIcon" class="icon-button menu-icon logo" type="button" aria-label="Menu" aria-expanded="false">
+        <svg class="logo-frame" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <svg class="logo-frame" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 6.5h17M2.5 12h18.5M4 17.5h16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
     </button>
 
-    <!-- Header with name in handwriting -->
+    <!-- Site title -->
     <div class="header-container">
-        <img id="headerName" class="header-image" src="./images/header-name1.jpg" alt="Handwritten Name">
+        <h1 class="site-title logo">
+            <span class="logo-frame title-font-a">nathan.reichen</span>
+            <span class="logo-frame title-font-b">nathan.reichen</span>
+        </h1>
     </div>
-    
-    <!-- Sidebar Menu -->
-    <div id="sidebar" class="sidebar">
+
+    <!-- Sidebar menu -->
+    <nav id="sidebar" class="sidebar">
         <div class="sidebar-content">
             <a href="#" class="sidebar-link">Home</a>
-            <a href="#photography" class="sidebar-link">Photography</a>
-            <a href="#" class="sidebar-link">Film</a>
-            <a href="#" class="sidebar-link">About</a>
-            <a href="#" class="sidebar-link">Contact</a>
+            <a href="#film" class="sidebar-link">Film</a>
         </div>
-    </div>
+    </nav>
 
-    <!-- Photography page, shown when the URL ends in #photography -->
-    <main id="photography" class="gallery-page" hidden>
+    <!-- Film photos page, shown when the URL ends in #film -->
+    <main id="film" class="gallery-page" hidden>
         <div id="photoGrid" class="photo-grid"></div>
         <div id="gallerySentinel"></div>
     </main>
@@ -288,39 +306,9 @@
     <!-- List of film photos; edit photos.js to add more -->
     <script src="photos.js"></script>
     <script>
-        // Array of image sources for your handwritten name
-        // Replace these with your actual uploaded image paths
-        const nameImages = [
-            './images/header-name1.jpg', // First variation of handwritten name
-            './images/header-name2.jpg'  // Second variation of handwritten name
-            // Add more variations as needed
-        ];
-
-        let nameIndex = 0;
         let isSidebarOpen = false;
-        const headerNameElement = document.getElementById('headerName');
         const menuIconElement = document.getElementById('menuIcon');
         const sidebarElement = document.getElementById('sidebar');
-
-        // Preload all images to prevent flickering
-        function preloadImages(imageArray) {
-            const preloadedImages = [];
-            for (let i = 0; i < imageArray.length; i++) {
-                const img = new Image();
-                img.src = imageArray[i];
-                preloadedImages.push(img);
-            }
-            return preloadedImages;
-        }
-
-        // Preload all images when the page loads
-        const preloadedNameImages = preloadImages(nameImages);
-
-        // Function to cycle through handwritten name images
-        function cycleNameImage() {
-            nameIndex = (nameIndex + 1) % nameImages.length;
-            headerNameElement.src = nameImages[nameIndex];
-        }
 
         // Function to toggle sidebar
         function toggleSidebar() {
@@ -371,10 +359,10 @@
         deviceDarkQuery.addEventListener('change', updateThemeToggle);
         updateThemeToggle();
 
-        // ---- Photography page ----
+        // ---- Film page (photo gallery) ----
         const photos = window.PHOTOS || [];
         const PHOTOS_PER_BATCH = 8;
-        const photographyElement = document.getElementById('photography');
+        const filmElement = document.getElementById('film');
         const photoGridElement = document.getElementById('photoGrid');
         const sentinelElement = document.getElementById('gallerySentinel');
         let photosShown = 0;
@@ -464,19 +452,32 @@
         }
 
         function showCurrentPage() {
-            const onPhotography = window.location.hash === '#photography';
-            photographyElement.hidden = !onPhotography;
-            if (onPhotography) startGallery();
+            // #photography was the page's first address; keep old links working
+            const onFilm = ['#film', '#photography'].includes(window.location.hash);
+            filmElement.hidden = !onFilm;
+            if (onFilm) startGallery();
         }
 
         window.addEventListener('hashchange', showCurrentPage);
         showCurrentPage();
 
-        // Wait until images are loaded before starting the animation
-        window.addEventListener('load', function() {
-            // Set interval to change images with your timing
-            setInterval(cycleNameImage, 1500);
-        });
+        // ---- Logos ----
+        // Each logo swaps between its two drawings on its own random timer.
+        // Visitors who ask their device to reduce motion see them hold still.
+        const LOGO_SWAP_MIN_MS = 300;
+        const LOGO_SWAP_MAX_MS = 1500;
+
+        function swapLogoLater(logo) {
+            const delay = LOGO_SWAP_MIN_MS + Math.random() * (LOGO_SWAP_MAX_MS - LOGO_SWAP_MIN_MS);
+            setTimeout(function() {
+                logo.classList.toggle('show-alt');
+                swapLogoLater(logo);
+            }, delay);
+        }
+
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.querySelectorAll('.logo').forEach(swapLogoLater);
+        }
     </script>
 </body>
 </html>

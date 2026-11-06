@@ -71,8 +71,8 @@ If remove/re-add doesn't work, check the apex for:
 ## Background picture and light/dark mode
 
 The site has a light and a dark version. The visitor's device setting
-(`prefers-color-scheme`) picks one until they click the night mode toggle (a
-placeholder moon icon, top right). That sets `data-theme="light"|"dark"` on
+(`prefers-color-scheme`) picks one until they click the night mode toggle (the
+moon, top right). That sets `data-theme="light"|"dark"` on
 `<html>` and saves it in `localStorage` (`theme`); a small script at the top of
 `<head>` re-applies it before the page draws on later visits. The colors and
 picture for each are CSS variables at the top of `index.html`'s `<style>` (the
@@ -97,14 +97,35 @@ to its plain color. Pictures load on every visit, so keep them
 around 2560px wide and ~1 MB or less — film grain compresses poorly, and
 grayscale scans should be saved as single-channel JPEGs.
 
-The sidebar is a white panel with dark links in both modes, and the menu icon
-turns dark (#333) while the sidebar is open.
+The sidebar has no panel: its links sit directly on the background in the
+mode's text color, with the same faint shadow as the icons so they stay
+readable over gallery photos.
 
-## Photography page
+## Logos (title, menu, moon)
 
-Lives inside `index.html` as a hidden `<main id="photography">`, shown when the
-URL hash is `#photography` (the sidebar link). Home is `#`. No separate HTML
-page, so the header and sidebar aren't duplicated.
+The site title, menu button and moon button are each a `.logo` holding two
+`.logo-frame` children stacked in one spot. A script toggles `.show-alt` on
+each logo on its own random timer (`LOGO_SWAP_MIN_MS`–`LOGO_SWAP_MAX_MS`,
+300–1500 ms), so the owner's eventual hand-drawn pairs will look like they're
+moving. Visitors with reduced motion turned on see them hold still.
+
+Current placeholders: the title is "nathan.reichen" in Georgia and in Courier
+New; the menu and moon are two slightly different SVG drawings each, in the
+mode's text color. To swap in drawings, replace each pair with two `<img>`s
+keeping `class="logo-frame"` (and give the title's images `alt` text).
+`images/header-name1.jpg` / `header-name2.jpg` are the old header images and
+are no longer used.
+
+## Sidebar
+
+Links: Home (`#`) and Film (`#film`). More pages will be added later.
+
+## Film page (photo gallery)
+
+Lives inside `index.html` as a hidden `<main id="film">`, shown when the URL
+hash is `#film` (the sidebar's Film link). The page's first address,
+`#photography`, still works. Home is `#`. No separate HTML page, so the header
+and sidebar aren't duplicated.
 
 - Photo list: `photos.js` (`window.PHOTOS`), displayed in file order. Each
   entry is `{ src, season, year, location? }`. `src` is a repo path under
@@ -118,16 +139,11 @@ page, so the header and sidebar aren't duplicated.
 - Caption ("Fall 2024 · Ann Arbor, MI") fades in on hover, on keyboard focus,
   or on tap for touch screens. A photo whose `src` fails to load is dropped
   from the grid and logged to the console.
-- The menu icon is `position: fixed` so the sidebar stays reachable while
-  scrolled down the gallery.
+- The menu and moon buttons are `position: fixed` so they stay reachable
+  while scrolled down the gallery.
 
 ## Gotchas
 
-- The menu icon is a `<button>` with three CSS bars (no image) in the
-  mode's text color, which turn dark (#333) while the sidebar is open so they
-  show against the white sidebar. It replaced a broken `<img>` that cycled through
-  `images/menu/menu-icon1.jpg` / `menu-icon2.jpg`, which never existed. To
-  bring back a cycling hand-drawn icon, upload those images first.
 - Git LFS does not work for site images — GitHub Pages serves the LFS pointer
   file, not the image.
 
