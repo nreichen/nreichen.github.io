@@ -34,13 +34,36 @@
             left: 20px;
             width: 40px;
             height: 40px;
+            box-sizing: border-box;
+            padding: 0 4px;
+            border: 0;
+            background: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 7px;
             cursor: pointer;
             z-index: 1000;
             transition: transform 0.3s ease;
+            /* Keeps the white bars visible over light photos */
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
         }
-        
+
+        .menu-icon span {
+            display: block;
+            height: 3px;
+            border-radius: 2px;
+            background-color: white;
+            transition: background-color 0.3s ease;
+        }
+
         .menu-icon.open {
             transform: rotate(90deg);
+        }
+
+        /* Dark bars while open, so the icon shows against the white sidebar */
+        .menu-icon.open span {
+            background-color: #333;
         }
 
         .header-container {
@@ -165,7 +188,9 @@
 </head>
 <body>
     <!-- Menu icon in the top left -->
-    <img id="menuIcon" class="menu-icon" src="/api/placeholder/40/40" alt="Menu">
+    <button id="menuIcon" class="menu-icon" type="button" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </button>
 
     <!-- Header with name in handwriting -->
     <div class="header-container">
@@ -200,16 +225,7 @@
             // Add more variations as needed
         ];
 
-        // Array of image sources for your menu icon
-        // Replace these with your actual uploaded image paths
-        const menuImages = [
-            'images/menu/menu-icon1.jpg', // First variation of menu icon
-            'images/menu/menu-icon2.jpg'  // Second variation of menu icon
-            // Add more variations as needed
-        ];
-
         let nameIndex = 0;
-        let menuIndex = 0;
         let isSidebarOpen = false;
         const headerNameElement = document.getElementById('headerName');
         const menuIconElement = document.getElementById('menuIcon');
@@ -228,7 +244,6 @@
 
         // Preload all images when the page loads
         const preloadedNameImages = preloadImages(nameImages);
-        const preloadedMenuImages = preloadImages(menuImages);
 
         // Function to cycle through handwritten name images
         function cycleNameImage() {
@@ -236,15 +251,10 @@
             headerNameElement.src = nameImages[nameIndex];
         }
 
-        // Function to cycle through menu icon images
-        function cycleMenuImage() {
-            menuIndex = (menuIndex + 1) % menuImages.length;
-            menuIconElement.src = menuImages[menuIndex];
-        }
-
         // Function to toggle sidebar
         function toggleSidebar() {
             isSidebarOpen = !isSidebarOpen;
+            menuIconElement.setAttribute('aria-expanded', isSidebarOpen);
             if (isSidebarOpen) {
                 sidebarElement.classList.add('open');
                 menuIconElement.classList.add('open');
@@ -369,7 +379,6 @@
         window.addEventListener('load', function() {
             // Set interval to change images with your timing
             setInterval(cycleNameImage, 1500);
-            setInterval(cycleMenuImage, 1505);
         });
     </script>
 </body>

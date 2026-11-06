@@ -89,9 +89,11 @@ page, so the header and sidebar aren't duplicated.
 
 ## Gotchas
 
-- The menu icon is broken: it starts on `/api/placeholder/40/40` and cycles
-  through `images/menu/menu-icon1.jpg` / `menu-icon2.jpg`, none of which exist
-  in the repo, so it renders as the alt text "Menu" (still clickable).
+- The menu icon is a `<button>` with three white CSS bars (no image), which
+  turn dark (#333) while the sidebar is open so they show against the white
+  sidebar. It replaced a broken `<img>` that cycled through
+  `images/menu/menu-icon1.jpg` / `menu-icon2.jpg`, which never existed. To
+  bring back a cycling hand-drawn icon, upload those images first.
 - Git LFS does not work for site images — GitHub Pages serves the LFS pointer
   file, not the image.
 
