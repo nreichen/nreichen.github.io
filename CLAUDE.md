@@ -11,6 +11,17 @@
 The site is plain static HTML (`index.html` + `images/`), no build step. `.nojekyll`
 is present, so GitHub serves the files as-is rather than running Jekyll.
 
+## Workflow
+
+Commit and push directly to `main` (owner's preference since 2026-11-06) — no
+feature branches or pull requests. `main` is what GitHub Pages serves, so
+every push is live within about a minute. Before pushing, test in a browser:
+serve the repo with `python3 -m http.server` and check light and dark mode
+(`prefers-color-scheme`) at desktop and phone widths.
+
+The owner uploads images through github.com ("Add files via upload"), which
+commits straight to `main`, so pull before starting work.
+
 ## DNS records GitHub Pages expects
 
 GitHub Pages reports **"DNS check successful"** — the A records below are
@@ -57,14 +68,28 @@ If remove/re-add doesn't work, check the apex for:
   prefers IPv6 when one exists, so a stale AAAA breaks validation while
   GitHub's DNS check (A records only) still passes.
 
-## Background picture
+## Background picture and light/dark mode
 
-`images/background.jpg` covers the whole window behind every page, fixed in
-place while scrolling (a `position: fixed` layer on `body::before`, since iOS
-ignores `background-attachment: fixed`). It's cropped to fill the screen, so
-the center of the picture is what always shows. If the file is missing the
-site falls back to white. It loads on every visit, so keep it around 2560px
-wide and under ~500 KB.
+The site has a light and a dark version, chosen automatically from the
+visitor's device setting (`prefers-color-scheme`). The colors and picture for
+each are CSS variables at the top of `index.html`'s `<style>`:
+
+| | Light (default) | Dark |
+|---|---|---|
+| Picture | `images/background-light.jpg` | `images/background-dark.jpg` |
+| Text and menu icon | `#111` (near-black) | white |
+| Color while the picture loads | white | `#222` |
+
+The picture covers the whole window behind every page, fixed in place while
+scrolling (a `position: fixed` layer on `body::before`, since iOS ignores
+`background-attachment: fixed`). It's cropped to fill the screen, so the center
+of the picture is what always shows. If a picture file is missing, that mode
+falls back to its plain color. Pictures load on every visit, so keep them
+around 2560px wide and ~1 MB or less — film grain compresses poorly, and
+grayscale scans should be saved as single-channel JPEGs.
+
+The sidebar is a white panel with dark links in both modes, and the menu icon
+turns dark (#333) while the sidebar is open.
 
 ## Photography page
 
@@ -89,9 +114,11 @@ page, so the header and sidebar aren't duplicated.
 
 ## Gotchas
 
-- The menu icon is broken: it starts on `/api/placeholder/40/40` and cycles
-  through `images/menu/menu-icon1.jpg` / `menu-icon2.jpg`, none of which exist
-  in the repo, so it renders as the alt text "Menu" (still clickable).
+- The menu icon is a `<button>` with three CSS bars (no image) in the
+  mode's text color, which turn dark (#333) while the sidebar is open so they
+  show against the white sidebar. It replaced a broken `<img>` that cycled through
+  `images/menu/menu-icon1.jpg` / `menu-icon2.jpg`, which never existed. To
+  bring back a cycling hand-drawn icon, upload those images first.
 - Git LFS does not work for site images — GitHub Pages serves the LFS pointer
   file, not the image.
 

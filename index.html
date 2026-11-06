@@ -5,10 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Website</title>
     <style>
+        /* Light and dark versions of the site, picked from the visitor's
+           device setting. Each has its own background picture and text color. */
+        :root {
+            --background-image: url('images/background-light.jpg');
+            --background-color: white;
+            --text-color: #111;
+            --icon-shadow: rgba(255, 255, 255, 0.6);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-image: url('images/background-dark.jpg');
+                --background-color: #222;
+                --text-color: white;
+                --icon-shadow: rgba(0, 0, 0, 0.5);
+            }
+        }
+
         body {
             margin: 0;
             padding: 0;
-            background-color: white;
+            background-color: var(--background-color);
+            color: var(--text-color);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -17,15 +36,15 @@
             overflow-x: hidden;
         }
 
-        /* Site-wide background picture, fixed in place on every page and screen
-           size. Replace images/background.jpg to change it. A fixed layer is
-           used instead of background-attachment: fixed, which iPhones ignore. */
+        /* Site-wide background picture (light or dark, set above), fixed in
+           place on every page and screen size. A fixed layer is used instead
+           of background-attachment: fixed, which iPhones ignore. */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: url('images/background.jpg') center / cover no-repeat;
+            background: var(--background-image) center / cover no-repeat;
         }
 
         .menu-icon {
@@ -34,13 +53,36 @@
             left: 20px;
             width: 40px;
             height: 40px;
+            box-sizing: border-box;
+            padding: 0 4px;
+            border: 0;
+            background: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 7px;
             cursor: pointer;
             z-index: 1000;
             transition: transform 0.3s ease;
+            /* Keeps the bars visible when they pass over a photo */
+            filter: drop-shadow(0 1px 2px var(--icon-shadow));
         }
-        
+
+        .menu-icon span {
+            display: block;
+            height: 3px;
+            border-radius: 2px;
+            background-color: var(--text-color);
+            transition: background-color 0.3s ease;
+        }
+
         .menu-icon.open {
             transform: rotate(90deg);
+        }
+
+        /* Dark bars while open, so the icon shows against the white sidebar */
+        .menu-icon.open span {
+            background-color: #333;
         }
 
         .header-container {
@@ -158,14 +200,16 @@
         }
 
         .gallery-empty {
-            color: #666;
+            color: var(--text-color);
             text-align: center;
         }
     </style>
 </head>
 <body>
     <!-- Menu icon in the top left -->
-    <img id="menuIcon" class="menu-icon" src="/api/placeholder/40/40" alt="Menu">
+    <button id="menuIcon" class="menu-icon" type="button" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </button>
 
     <!-- Header with name in handwriting -->
     <div class="header-container">
@@ -200,16 +244,7 @@
             // Add more variations as needed
         ];
 
-        // Array of image sources for your menu icon
-        // Replace these with your actual uploaded image paths
-        const menuImages = [
-            'images/menu/menu-icon1.jpg', // First variation of menu icon
-            'images/menu/menu-icon2.jpg'  // Second variation of menu icon
-            // Add more variations as needed
-        ];
-
         let nameIndex = 0;
-        let menuIndex = 0;
         let isSidebarOpen = false;
         const headerNameElement = document.getElementById('headerName');
         const menuIconElement = document.getElementById('menuIcon');
@@ -228,7 +263,6 @@
 
         // Preload all images when the page loads
         const preloadedNameImages = preloadImages(nameImages);
-        const preloadedMenuImages = preloadImages(menuImages);
 
         // Function to cycle through handwritten name images
         function cycleNameImage() {
@@ -236,15 +270,10 @@
             headerNameElement.src = nameImages[nameIndex];
         }
 
-        // Function to cycle through menu icon images
-        function cycleMenuImage() {
-            menuIndex = (menuIndex + 1) % menuImages.length;
-            menuIconElement.src = menuImages[menuIndex];
-        }
-
         // Function to toggle sidebar
         function toggleSidebar() {
             isSidebarOpen = !isSidebarOpen;
+            menuIconElement.setAttribute('aria-expanded', isSidebarOpen);
             if (isSidebarOpen) {
                 sidebarElement.classList.add('open');
                 menuIconElement.classList.add('open');
@@ -369,7 +398,6 @@
         window.addEventListener('load', function() {
             // Set interval to change images with your timing
             setInterval(cycleNameImage, 1500);
-            setInterval(cycleMenuImage, 1505);
         });
     </script>
 </body>
