@@ -57,6 +57,15 @@ If remove/re-add doesn't work, check the apex for:
   prefers IPv6 when one exists, so a stale AAAA breaks validation while
   GitHub's DNS check (A records only) still passes.
 
+## Background picture
+
+`images/background.jpg` covers the whole window behind every page, fixed in
+place while scrolling (a `position: fixed` layer on `body::before`, since iOS
+ignores `background-attachment: fixed`). It's cropped to fill the screen, so
+the center of the picture is what always shows. If the file is missing the
+site falls back to white. It loads on every visit, so keep it around 2560px
+wide and under ~500 KB.
+
 ## Photography page
 
 Lives inside `index.html` as a hidden `<main id="photography">`, shown when the

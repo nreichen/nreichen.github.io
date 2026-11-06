@@ -17,6 +17,17 @@
             overflow-x: hidden;
         }
 
+        /* Site-wide background picture, fixed in place on every page and screen
+           size. Replace images/background.jpg to change it. A fixed layer is
+           used instead of background-attachment: fixed, which iPhones ignore. */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: url('images/background.jpg') center / cover no-repeat;
+        }
+
         .menu-icon {
             position: fixed;
             top: 20px;
