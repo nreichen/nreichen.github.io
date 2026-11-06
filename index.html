@@ -256,6 +256,12 @@
             height: 100%;
             opacity: 0;
             transition: opacity 0.4s ease;
+            /* No dragging photos out, and no iPhone long-press "Save to
+               Photos" menu (see the contextmenu handler in the script) */
+            -webkit-user-drag: none;
+            -webkit-touch-callout: none;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         .photo.loaded img,
@@ -460,6 +466,7 @@
                 media = document.createElement('img');
                 media.alt = label;
                 media.decoding = 'async';
+                media.draggable = false;
                 media.addEventListener('load', function() {
                     showMedia(media.naturalWidth, media.naturalHeight);
                 });
@@ -493,6 +500,15 @@
             });
             return figure;
         }
+
+        // No right-click (or Android long-press) "Save image/video as…" menu
+        // and no dragging a photo out. This only stops casual saving: a
+        // screenshot or the browser's developer tools still get the file.
+        ['contextmenu', 'dragstart'].forEach(function(type) {
+            photoGridElement.addEventListener(type, function(event) {
+                if (event.target.closest('.photo')) event.preventDefault();
+            });
+        });
 
         function showNextBatch() {
             const batch = photos.slice(photosShown, photosShown + PHOTOS_PER_BATCH);

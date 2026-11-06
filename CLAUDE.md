@@ -181,6 +181,13 @@ and sidebar aren't duplicated.
 - Clips play like GIFs (muted, looping, inline) but only while at least a
   quarter of one is on screen, so off-screen clips don't burn battery. With
   reduced motion on they show the poster and a tap plays/pauses them.
+- Casual saving is off over photos and clips (owner's request): no
+  right-click or Android long-press menu (a `contextmenu` handler on the
+  grid), no dragging a photo out, and no iPhone long-press "Save to Photos"
+  (`-webkit-touch-callout: none`). Right-click elsewhere on the page works
+  normally. This is only a speed bump — screenshots, developer tools, and
+  the public repo still give access to the files; a baked-in watermark is
+  the only thing that would travel with a download.
 - The menu and moon buttons are `position: fixed` so they stay reachable
   while scrolled down the gallery.
 
