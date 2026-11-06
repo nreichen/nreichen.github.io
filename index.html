@@ -293,6 +293,68 @@
             color: var(--text-color);
             text-align: center;
         }
+
+        /* Super 8 page: one YouTube project per row, centered, each with a
+           title, a paragraph and a link to watch it on YouTube */
+        .video-page {
+            width: 100%;
+            max-width: 960px;
+            box-sizing: border-box;
+            padding: 100px 20px 40px;
+        }
+
+        .video-project {
+            margin: 0 0 96px;
+            text-align: center;
+            color: var(--text-color);
+            /* Keeps the text readable over the background picture */
+            text-shadow: 0 1px 2px var(--icon-shadow);
+        }
+
+        .video-frame {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background-color: #000;
+        }
+
+        .video-frame iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-project h2 {
+            margin: 28px 0 4px;
+            font-family: Cousine, 'Liberation Mono', 'Courier New', monospace;
+            font-size: 22px;
+            font-weight: normal;
+        }
+
+        .video-when {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.75;
+        }
+
+        .video-blurb p {
+            max-width: 640px;
+            margin: 16px auto 0;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .video-link {
+            display: inline-block;
+            margin-top: 16px;
+            color: inherit;
+            font-size: 15px;
+        }
+
+        .video-link:hover {
+            opacity: 0.6;
+        }
     </style>
 </head>
 <body>
@@ -324,19 +386,26 @@
     <!-- Sidebar menu -->
     <nav id="sidebar" class="sidebar">
         <div class="sidebar-content">
-            <a href="#" class="sidebar-link">Home</a>
             <a href="#film" class="sidebar-link">Film</a>
+            <a href="#super8" class="sidebar-link">Super 8</a>
         </div>
     </nav>
 
-    <!-- Film photos page, shown when the URL ends in #film -->
+    <!-- Film photos page: the home page for now, and #film -->
     <main id="film" class="gallery-page" hidden>
         <div id="photoGrid" class="photo-grid"></div>
         <div id="gallerySentinel"></div>
     </main>
 
+    <!-- Super 8 page (YouTube projects), shown when the URL ends in #super8 -->
+    <main id="super8" class="video-page" hidden>
+        <div id="videoList"></div>
+    </main>
+
     <!-- List of film photos; edit photos.js to add more -->
     <script src="photos.js"></script>
+    <!-- List of Super 8 projects; edit super8.js to add more -->
+    <script src="super8.js"></script>
     <script>
         let isSidebarOpen = false;
         const menuIconElement = document.getElementById('menuIcon');
@@ -543,11 +612,163 @@
             galleryObserver.observe(sentinelElement);
         }
 
+        // ---- Super 8 page (YouTube projects) ----
+        const super8Projects = window.SUPER8 || [];
+        const super8Element = document.getElementById('super8');
+        const videoListElement = document.getElementById('videoList');
+        let super8Started = false;
+
+        // Accepts any YouTube link (youtu.be/…, watch?v=…, /shorts/…) or a bare ID
+        function youTubeId(link) {
+            const text = String(link || '').trim();
+            const match = text.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([\w-]{11})/);
+            if (match) return match[1];
+            return /^[\w-]{11}$/.test(text) ? text : null;
+        }
+
+        // YouTube's player script, loaded once, only when a video is near
+        let youTubeReady = null;
+        function loadYouTube() {
+            if (!youTubeReady) {
+                youTubeReady = new Promise(function(resolve) {
+                    window.onYouTubeIframeAPIReady = function() { resolve(window.YT); };
+                    const script = document.createElement('script');
+                    script.src = 'https://www.youtube.com/iframe_api';
+                    document.head.appendChild(script);
+                });
+            }
+            return youTubeReady;
+        }
+
+        // Videos autoplay muted (browsers only allow muted autoplay; the
+        // player's own button turns the sound on), and only while at least
+        // half of one is on screen. With reduced motion on, they wait for a click.
+        const videoPlayObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                const frame = entry.target;
+                frame.inView = entry.isIntersecting;
+                if (!frame.player) return;
+                if (entry.isIntersecting) {
+                    if (!reduceMotion) frame.player.playVideo();
+                } else {
+                    frame.player.pauseVideo();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Each player is created as its video nears the screen, so the page
+        // doesn't load every video at once
+        const videoLoadObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (!entry.isIntersecting) return;
+                const frame = entry.target;
+                videoLoadObserver.unobserve(frame);
+                loadYouTube().then(function(YT) {
+                    const holder = document.createElement('div');
+                    frame.appendChild(holder);
+                    new YT.Player(holder, {
+                        host: 'https://www.youtube-nocookie.com',
+                        videoId: frame.dataset.videoId,
+                        width: '100%',
+                        height: '100%',
+                        playerVars: {
+                            mute: 1,
+                            playsinline: 1,
+                            loop: 1,
+                            playlist: frame.dataset.videoId,  // needed for loop
+                            rel: 0
+                        },
+                        events: {
+                            onReady: function(event) {
+                                frame.player = event.target;
+                                if (frame.inView && !reduceMotion) frame.player.playVideo();
+                            }
+                        }
+                    });
+                });
+            });
+        }, { rootMargin: '600px 0px' });
+
+        function createProjectElement(project) {
+            const article = document.createElement('article');
+            article.className = 'video-project';
+            const id = youTubeId(project.youtube);
+
+            if (id) {
+                const frame = document.createElement('div');
+                frame.className = 'video-frame';
+                frame.dataset.videoId = id;
+                // e.g. ratio: '4 / 3' for a video without black side bars
+                if (project.ratio) frame.style.aspectRatio = project.ratio;
+                article.appendChild(frame);
+                videoLoadObserver.observe(frame);
+                videoPlayObserver.observe(frame);
+            } else {
+                console.warn('Not a YouTube link:', project.youtube);
+            }
+
+            if (project.title) {
+                const heading = document.createElement('h2');
+                heading.textContent = project.title;
+                article.appendChild(heading);
+            }
+
+            // Same format as the photo captions, e.g. "Summer 2023 · Ann Arbor, MI"
+            const when = captionFor(project);
+            if (when) {
+                const whenElement = document.createElement('p');
+                whenElement.className = 'video-when';
+                whenElement.textContent = when;
+                article.appendChild(whenElement);
+            }
+
+            // A blank line in the blurb starts a new paragraph
+            if (project.blurb) {
+                const blurb = document.createElement('div');
+                blurb.className = 'video-blurb';
+                project.blurb.split(/\n\s*\n/).forEach(function(text) {
+                    const paragraph = document.createElement('p');
+                    paragraph.textContent = text.trim();
+                    blurb.appendChild(paragraph);
+                });
+                article.appendChild(blurb);
+            }
+
+            if (id) {
+                const link = document.createElement('a');
+                link.className = 'video-link';
+                link.href = 'https://www.youtube.com/watch?v=' + id;
+                link.target = '_blank';
+                link.rel = 'noopener';
+                link.textContent = 'Watch on YouTube ↗';
+                article.appendChild(link);
+            }
+            return article;
+        }
+
+        function startSuper8() {
+            if (super8Started) return;
+            super8Started = true;
+            if (super8Projects.length === 0) {
+                videoListElement.innerHTML = '<p class="gallery-empty">Super 8 films coming soon.</p>';
+                return;
+            }
+            super8Projects.forEach(function(project) {
+                videoListElement.appendChild(createProjectElement(project));
+            });
+        }
+
         function showCurrentPage() {
-            // #photography was the page's first address; keep old links working
-            const onFilm = ['#film', '#photography'].includes(window.location.hash);
-            filmElement.hidden = !onFilm;
-            if (onFilm) startGallery();
+            // Film is the home page for now, so any address other than
+            // #super8 shows it (including #photography, its first address)
+            const onSuper8 = window.location.hash === '#super8';
+            filmElement.hidden = onSuper8;
+            super8Element.hidden = !onSuper8;
+            if (onSuper8) {
+                startSuper8();
+            } else {
+                startGallery();
+            }
         }
 
         window.addEventListener('hashchange', showCurrentPage);

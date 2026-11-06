@@ -141,14 +141,20 @@ When the owner draws a logo, replace all three (and keep the file names).
 
 ## Sidebar
 
-Links: Home (`#`) and Film (`#film`). More pages will be added later.
+Links: Film (`#film`) and Super 8 (`#super8`). Film is the home page for now
+(owner's request, 2026-11-06), so the old Home link (`#`) was dropped — it
+showed the same page. Add Home back when there's a real home page. More pages
+will be added later.
+
+Pages are `<main>` sections in `index.html`, switched by the URL hash in
+`showCurrentPage()`: `#super8` shows Super 8; anything else (no hash, `#`,
+`#film`, the old `#photography`, typos) shows Film.
 
 ## Film page (photo gallery)
 
-Lives inside `index.html` as a hidden `<main id="film">`, shown when the URL
-hash is `#film` (the sidebar's Film link). The page's first address,
-`#photography`, still works. Home is `#`. No separate HTML page, so the header
-and sidebar aren't duplicated.
+Lives inside `index.html` as `<main id="film">`, shown at the bare address
+and at `#film` (see Sidebar). No separate HTML page, so the header and
+sidebar aren't duplicated.
 
 - Photo list: `photos.js` (`window.PHOTOS`), displayed in file order. Each
   entry is `{ src, season, year, location?, poster? }`. `src` is a repo path
@@ -202,6 +208,28 @@ In the owner's Drive, under **Film**:
   files (dates, etc.) moved out of the way.
 - **Film Favorites** — the owner's picks (empty so far; what favorites do
   on the site is undecided).
+
+## Super 8 page (YouTube projects)
+
+`<main id="super8">`, shown at `#super8`. One project per row in a centered
+column (max 960px): the embedded YouTube video, then title, when/where (same
+format as the photo captions), a paragraph, and a "Watch on YouTube ↗" link.
+
+- Project list: `super8.js` (`window.SUPER8`), shown in file order. Each entry
+  is `{ youtube, title?, season?, year?, location?, blurb?, ratio? }`.
+  `youtube` takes any YouTube link or a bare 11-character ID. In `blurb`, a
+  blank line (`\n\n`) starts a new paragraph. `ratio: '4 / 3'` makes the frame
+  4:3 for videos uploaded without side bars (default 16:9). Empty list shows
+  "Super 8 films coming soon."
+- Players use YouTube's IFrame API (`https://www.youtube.com/iframe_api`,
+  loaded only when the page is opened) on `youtube-nocookie.com`. Each player
+  is created when its video comes within 600px of the screen. Videos autoplay
+  **muted** (browsers block autoplay with sound; the player's own button
+  unmutes), loop, and only play while at least half is on screen — they
+  pause when scrolled away or when switching to Film. With reduced motion on
+  they never autoplay.
+- Testing: this sandbox can't reach YouTube, so tests stub
+  `iframe_api` with a fake `YT.Player` that records play/pause calls.
 
 ## Gotchas
 
