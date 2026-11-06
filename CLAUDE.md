@@ -109,8 +109,17 @@ each logo on its own random timer (`LOGO_SWAP_MIN_MS`–`LOGO_SWAP_MAX_MS`,
 300–1500 ms), so the owner's eventual hand-drawn pairs will look like they're
 moving. Visitors with reduced motion turned on see them hold still.
 
-Current placeholders: the title is "nathan.reichen" in Georgia and in Courier
-New; the menu and moon are two slightly different SVG drawings each, in the
+The title is the exception (`data-swap="click"`): it holds still until someone
+clicks the middle dot in "nathan·reichen", which starts the swapping; another
+click stops it. The dot (`.title-dot`) has extra invisible padding so it's easy
+to hit. With reduced motion on, each click changes the font once instead.
+
+Current placeholders: the title is "nathan·reichen" (middle dot, U+00B7) in
+Cousine, a monospace font bundled in `fonts/` (Latin subset, 15 KB, SIL Open
+Font License in `fonts/cousine-OFL.txt`, preloaded in `<head>`), alternating
+with Georgia when the dot is clicked. Cousine was picked because the owner
+liked how the title looked in a screenshot taken on a machine without Courier
+New, which substituted Liberation Mono; Cousine renders pixel-identical to it; the menu and moon are two slightly different SVG drawings each, in the
 mode's text color. To swap in drawings, replace each pair with two `<img>`s
 keeping `class="logo-frame"` (and give the title's images `alt` text).
 `images/header-name1.jpg` / `header-name2.jpg` are the old header images and

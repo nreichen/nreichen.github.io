@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Website</title>
+    <link rel="preload" href="fonts/cousine-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <script>
         // Apply a light/dark choice saved by the moon button before the page
         // draws, so it doesn't flash the other version first
@@ -15,6 +16,15 @@
         } catch (e) {}
     </script>
     <style>
+        /* Title font, bundled with the site so every visitor sees the same
+           one (Cousine, SIL Open Font License: fonts/cousine-OFL.txt) */
+        @font-face {
+            font-family: 'Cousine';
+            src: url('fonts/cousine-latin-400-normal.woff2') format('woff2');
+            font-weight: 400;
+            font-display: swap;
+        }
+
         /* Light and dark versions of the site. The visitor's device setting
            picks one until they choose with the moon button, which sets
            data-theme on <html>. Each has its own background picture and
@@ -136,7 +146,8 @@
             justify-content: center;
         }
 
-        /* Site title (placeholder: the same name in two fonts) */
+        /* Site title (placeholder: the same name in two fonts; the first,
+           Cousine, shows until the dot is clicked) */
         .site-title {
             margin: 0;
             height: 40px; /* Same height as the icons */
@@ -149,11 +160,19 @@
         }
 
         .title-font-a {
-            font-family: Georgia, 'Times New Roman', serif;
+            font-family: Cousine, 'Liberation Mono', 'Courier New', monospace;
         }
 
         .title-font-b {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        /* Clicking the dot starts and stops the title swapping. The padding
+           (cancelled out by the negative margin) makes it easier to hit. */
+        .title-dot {
+            cursor: pointer;
+            padding: 10px 6px;
+            margin: -10px -6px;
         }
 
         /* Sidebar menu: no panel, just links over the background */
@@ -283,9 +302,9 @@
 
     <!-- Site title -->
     <div class="header-container">
-        <h1 class="site-title logo">
-            <span class="logo-frame title-font-a">nathan.reichen</span>
-            <span class="logo-frame title-font-b">nathan.reichen</span>
+        <h1 class="site-title logo" data-swap="click">
+            <span class="logo-frame title-font-a">nathan<span class="title-dot">·</span>reichen</span>
+            <span class="logo-frame title-font-b">nathan<span class="title-dot">·</span>reichen</span>
         </h1>
     </div>
 
@@ -463,21 +482,45 @@
 
         // ---- Logos ----
         // Each logo swaps between its two drawings on its own random timer.
+        // The title (data-swap="click") only swaps after its dot is clicked.
         // Visitors who ask their device to reduce motion see them hold still.
         const LOGO_SWAP_MIN_MS = 300;
         const LOGO_SWAP_MAX_MS = 1500;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const logoTimers = new Map();
 
-        function swapLogoLater(logo) {
-            const delay = LOGO_SWAP_MIN_MS + Math.random() * (LOGO_SWAP_MAX_MS - LOGO_SWAP_MIN_MS);
-            setTimeout(function() {
-                logo.classList.toggle('show-alt');
-                swapLogoLater(logo);
-            }, delay);
+        function startSwapping(logo) {
+            function swapLater() {
+                const delay = LOGO_SWAP_MIN_MS + Math.random() * (LOGO_SWAP_MAX_MS - LOGO_SWAP_MIN_MS);
+                logoTimers.set(logo, setTimeout(function() {
+                    logo.classList.toggle('show-alt');
+                    swapLater();
+                }, delay));
+            }
+            swapLater();
         }
 
-        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.querySelectorAll('.logo').forEach(swapLogoLater);
+        function stopSwapping(logo) {
+            clearTimeout(logoTimers.get(logo));
+            logoTimers.delete(logo);
         }
+
+        if (!reduceMotion) {
+            document.querySelectorAll('.logo:not([data-swap="click"])').forEach(startSwapping);
+        }
+
+        // Clicking the title's dot starts its swapping; clicking again stops it
+        const siteTitleElement = document.querySelector('.site-title');
+        siteTitleElement.addEventListener('click', function(event) {
+            if (!event.target.classList.contains('title-dot')) return;
+            if (reduceMotion) {
+                siteTitleElement.classList.toggle('show-alt');  // one change per click
+            } else if (logoTimers.has(siteTitleElement)) {
+                stopSwapping(siteTitleElement);
+            } else {
+                startSwapping(siteTitleElement);
+            }
+        });
     </script>
 </body>
 </html>
