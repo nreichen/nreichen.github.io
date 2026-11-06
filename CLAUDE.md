@@ -233,6 +233,14 @@ format as the photo captions), a paragraph, and a "Watch on YouTube ↗" link.
 
 ## Gotchas
 
+- **Pages deploys sometimes time out on GitHub's side.** Since the photo
+  import (2026-11-06), about half the "pages build and deployment" runs
+  fail after 10 minutes in the deploy job with `Current status:
+  syncing_files` → `Timeout reached, aborting!`. The build is fine; the
+  site just keeps serving the previous version. Re-running the failed job
+  has worked every time so far (about a minute). After pushing, check the
+  run actually succeeded before telling the owner a change is live.
+
 - Git LFS does not work for site images — GitHub Pages serves the LFS pointer
   file, not the image.
 
