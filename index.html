@@ -5,10 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Website</title>
     <style>
+        /* Light and dark versions of the site, picked from the visitor's
+           device setting. Each has its own background picture and text color. */
+        :root {
+            --background-image: url('images/background-light.jpg');
+            --background-color: white;
+            --text-color: #111;
+            --icon-shadow: rgba(255, 255, 255, 0.6);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-image: url('images/background-dark.jpg');
+                --background-color: #222;
+                --text-color: white;
+                --icon-shadow: rgba(0, 0, 0, 0.5);
+            }
+        }
+
         body {
             margin: 0;
             padding: 0;
-            background-color: white;
+            background-color: var(--background-color);
+            color: var(--text-color);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -17,15 +36,15 @@
             overflow-x: hidden;
         }
 
-        /* Site-wide background picture, fixed in place on every page and screen
-           size. Replace images/background.jpg to change it. A fixed layer is
-           used instead of background-attachment: fixed, which iPhones ignore. */
+        /* Site-wide background picture (light or dark, set above), fixed in
+           place on every page and screen size. A fixed layer is used instead
+           of background-attachment: fixed, which iPhones ignore. */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: url('images/background.jpg') center / cover no-repeat;
+            background: var(--background-image) center / cover no-repeat;
         }
 
         .menu-icon {
@@ -45,15 +64,15 @@
             cursor: pointer;
             z-index: 1000;
             transition: transform 0.3s ease;
-            /* Keeps the white bars visible over light photos */
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+            /* Keeps the bars visible when they pass over a photo */
+            filter: drop-shadow(0 1px 2px var(--icon-shadow));
         }
 
         .menu-icon span {
             display: block;
             height: 3px;
             border-radius: 2px;
-            background-color: white;
+            background-color: var(--text-color);
             transition: background-color 0.3s ease;
         }
 
@@ -181,7 +200,7 @@
         }
 
         .gallery-empty {
-            color: #666;
+            color: var(--text-color);
             text-align: center;
         }
     </style>
