@@ -12,6 +12,10 @@
 //   ratio     optional, e.g. '4 / 3' if the video is 4:3 (Super 8's shape)
 //             and was uploaded without black bars on the sides
 window.SUPER8 = [
+    {
+        youtube: 'https://youtu.be/oFkHPYYVwRY',
+        // title, season/year/location and blurb to come from Nathan
+    },
     // {
     //     youtube: 'https://youtu.be/VIDEO_ID',
     //     title: 'Project title',
