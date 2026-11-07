@@ -180,19 +180,24 @@
             margin: -10px -6px;
         }
 
-        /* Sidebar menu: no panel, just links over the background */
+        /* Sidebar menu: no panel, just links over the background. While
+           closed it is also hidden, so Tab and screen readers skip its links;
+           the hide waits until the 0.3s slide-out has finished. */
         .sidebar {
             position: fixed;
             top: 0;
             left: -250px;
             width: 250px;
             height: 100%;
-            transition: left 0.3s ease;
+            visibility: hidden;
+            transition: left 0.3s ease, visibility 0s linear 0.3s;
             z-index: 900;
         }
 
         .sidebar.open {
             left: 0;
+            visibility: visible;
+            transition-delay: 0s;  /* show at once when opening */
         }
 
         .sidebar-content {

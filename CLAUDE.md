@@ -146,6 +146,13 @@ Links: Film (`#film`) and Super 8 (`#super8`). Film is the home page for now
 showed the same page. Add Home back when there's a real home page. More pages
 will be added later.
 
+The closed sidebar is `visibility: hidden` as well as slid off-screen, so Tab
+goes from the menu button straight to the page and screen readers skip its
+links. The hide is delayed by the 0.3s slide-out
+(`transition: left 0.3s ease, visibility 0s linear 0.3s`) and lifted at once
+on opening (`transition-delay: 0s` on `.sidebar.open`), so the animation still
+plays both ways.
+
 Pages are `<main>` sections in `index.html`, switched by the URL hash in
 `showCurrentPage()`: `#super8` shows Super 8; anything else (no hash, `#`,
 `#film`, the old `#photography`, typos) shows Film.
