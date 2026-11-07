@@ -182,7 +182,9 @@ sidebar aren't duplicated.
   photos show at the same size (the short side gets white space). Photos load
   8 at a time as the bottom nears the screen (`PHOTOS_PER_BATCH`).
 - Caption ("Fall 2024 · Ann Arbor, MI") fades in on hover, on keyboard focus,
-  or on tap for touch screens. A photo whose `src` fails to load is dropped
+  or on tap for touch screens. Hover and tap count only on the photo itself
+  (`.photo-frame`), not the blank part of its square cell — hovering beside a
+  photo used to bring up its caption. A photo whose `src` fails to load is dropped
   from the grid and logged to the console.
 - Clips play like GIFs (muted, looping, inline) but only while at least a
   quarter of one is on screen, so off-screen clips don't burn battery. With

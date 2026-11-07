@@ -283,7 +283,9 @@
             pointer-events: none;
         }
 
-        .photo:hover figcaption,
+        /* Hover is on the photo itself (.photo-frame), not its square cell,
+           so the blank space beside a photo doesn't bring up the caption */
+        .photo-frame:hover figcaption,
         .photo:focus-visible figcaption,
         .photo.show-caption figcaption {
             opacity: 1;
@@ -544,9 +546,10 @@
             }
             figure.appendChild(frame);
 
-            // Touch screens have no hover, so a tap toggles the caption
-            // (and, with reduced motion on, plays or pauses a clip)
-            figure.addEventListener('click', function() {
+            // Touch screens have no hover, so a tap on the photo (not the
+            // blank space around it) toggles the caption (and, with reduced
+            // motion on, plays or pauses a clip)
+            frame.addEventListener('click', function() {
                 figure.classList.toggle('show-caption');
                 if (clip && reduceMotion) {
                     if (media.paused) {
