@@ -102,11 +102,13 @@
             filter: drop-shadow(0 1px 2px var(--icon-shadow));
         }
 
-        .icon-button svg {
+        .icon-button svg,
+        .icon-button img {
             display: block;
             width: 100%;
             height: 100%;
             fill: currentColor;
+            object-fit: contain;
         }
 
         .menu-icon {
@@ -122,8 +124,9 @@
             right: 20px;
         }
 
-        /* Logos (title, menu, moon) each have two drawings stacked in the same
-           spot; the script swaps which one shows at random intervals */
+        /* Logos (title, menu, moon) each have their drawings ("frames")
+           stacked in the same spot; only the one marked .current shows, and
+           the script moves .current to animate them */
         .logo {
             display: grid;
             place-items: center;
@@ -137,8 +140,7 @@
             grid-area: 1 / 1;
         }
 
-        .logo:not(.show-alt) > .logo-frame:nth-child(2),
-        .logo.show-alt > .logo-frame:nth-child(1) {
+        .logo-frame:not(.current) {
             visibility: hidden;
         }
 
@@ -354,27 +356,30 @@
     </style>
 </head>
 <body>
-    <!-- The title, menu, and moon are "logos": each holds two drawings that
-         swap at random so hand-drawn versions look alive. These are
-         placeholders; to use drawings, replace each pair with two <img>s
-         that keep the class="logo-frame". -->
+    <!-- The title, menu, and moon are "logos": each holds its drawings
+         (class="logo-frame") in order, and the script plays them back and
+         forth (1 2 3 2 1 …) so the hand-drawn ones look alive. The first
+         frame is marked "current" so it shows before the script runs. The
+         moon is Nathan's drawing (small copies in images/logos/moon/site/);
+         the menu and title are still placeholders. -->
 
     <!-- Night mode toggle in the top right -->
     <button id="themeToggle" class="icon-button theme-toggle logo" type="button" aria-label="Night mode" aria-pressed="false">
-        <svg class="logo-frame" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="logo-frame" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" transform="rotate(-12 12 12)"/></svg>
+        <img class="logo-frame current" src="images/logos/moon/site/1.png" alt="" draggable="false">
+        <img class="logo-frame" src="images/logos/moon/site/2.png" alt="" draggable="false">
+        <img class="logo-frame" src="images/logos/moon/site/3.png" alt="" draggable="false">
     </button>
 
     <!-- Menu button in the top left -->
     <button id="menuIcon" class="icon-button menu-icon logo" type="button" aria-label="Menu" aria-expanded="false">
-        <svg class="logo-frame" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <svg class="logo-frame current" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
         <svg class="logo-frame" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 6.5h17M2.5 12h18.5M4 17.5h16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
     </button>
 
     <!-- Site title -->
     <div class="header-container">
         <h1 class="site-title logo" data-swap="click">
-            <span class="logo-frame title-font-a">nathan<span class="title-dot">·</span>reichen</span>
+            <span class="logo-frame current title-font-a">nathan<span class="title-dot">·</span>reichen</span>
             <span class="logo-frame title-font-b">nathan<span class="title-dot">·</span>reichen</span>
         </h1>
     </div>
@@ -764,43 +769,64 @@
         showCurrentPage();
 
         // ---- Logos ----
-        // Each logo swaps between its two drawings on its own random timer.
-        // The title (data-swap="click") only swaps after its dot is clicked.
-        // Visitors who ask their device to reduce motion see them hold still.
-        const LOGO_SWAP_MIN_MS = 300;
-        const LOGO_SWAP_MAX_MS = 1500;
+        // Each logo plays its frames back and forth, one step every
+        // LOGO_FRAME_MS: 1 2 3 2 1 2 3 … (two frames just alternate). The
+        // logos that start on their own are offset from each other so they
+        // don't all change at the same instant. The title
+        // (data-swap="click") only animates after its dot is clicked.
+        // Visitors who ask their device to reduce motion see frame 1 held.
+        const LOGO_FRAME_MS = 500;
         const logoTimers = new Map();
 
-        function startSwapping(logo) {
-            function swapLater() {
-                const delay = LOGO_SWAP_MIN_MS + Math.random() * (LOGO_SWAP_MAX_MS - LOGO_SWAP_MIN_MS);
-                logoTimers.set(logo, setTimeout(function() {
-                    logo.classList.toggle('show-alt');
-                    swapLater();
-                }, delay));
+        // Move one step along the back-and-forth sequence
+        function stepLogo(logo) {
+            const frames = logo.querySelectorAll(':scope > .logo-frame');
+            if (frames.length < 2) return;
+            let index = Array.prototype.findIndex.call(frames, function(frame) {
+                return frame.classList.contains('current');
+            });
+            let direction = Number(logo.dataset.direction) || 1;
+            if (index + direction < 0 || index + direction >= frames.length) {
+                direction = -direction;  // turn around at either end
             }
-            swapLater();
+            frames[Math.max(index, 0)].classList.remove('current');
+            index = Math.max(index, 0) + direction;
+            frames[index].classList.add('current');
+            logo.dataset.direction = direction;
         }
 
-        function stopSwapping(logo) {
+        function startAnimating(logo, delay) {
+            logoTimers.set(logo, setTimeout(function() {
+                stepLogo(logo);
+                logoTimers.set(logo, setInterval(stepLogo, LOGO_FRAME_MS, logo));
+            }, LOGO_FRAME_MS + (delay || 0)));
+        }
+
+        function stopAnimating(logo) {
+            // Timer ids from setTimeout and setInterval share one pool, so
+            // clearTimeout cancels either
             clearTimeout(logoTimers.get(logo));
             logoTimers.delete(logo);
         }
 
         if (!reduceMotion) {
-            document.querySelectorAll('.logo:not([data-swap="click"])').forEach(startSwapping);
+            const autoLogos = document.querySelectorAll('.logo:not([data-swap="click"])');
+            autoLogos.forEach(function(logo, i) {
+                startAnimating(logo, LOGO_FRAME_MS * i / autoLogos.length);
+            });
         }
 
-        // Clicking the title's dot starts its swapping; clicking again stops it
+        // Clicking the title's dot starts its animation; clicking again stops it
         const siteTitleElement = document.querySelector('.site-title');
         siteTitleElement.addEventListener('click', function(event) {
             if (!event.target.classList.contains('title-dot')) return;
             if (reduceMotion) {
-                siteTitleElement.classList.toggle('show-alt');  // one change per click
+                stepLogo(siteTitleElement);  // one step per click
             } else if (logoTimers.has(siteTitleElement)) {
-                stopSwapping(siteTitleElement);
+                stopAnimating(siteTitleElement);
             } else {
-                startSwapping(siteTitleElement);
+                stepLogo(siteTitleElement);  // respond to the click right away
+                startAnimating(siteTitleElement);
             }
         });
     </script>

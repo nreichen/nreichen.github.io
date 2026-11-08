@@ -103,38 +103,53 @@ readable over gallery photos.
 
 ## Logos (title, menu, moon)
 
-The site title, menu button and moon button are each a `.logo` holding two
-`.logo-frame` children stacked in one spot. A script toggles `.show-alt` on
-each logo on its own random timer (`LOGO_SWAP_MIN_MS`–`LOGO_SWAP_MAX_MS`,
-300–1500 ms), so the owner's eventual hand-drawn pairs will look like they're
-moving. Visitors with reduced motion turned on see them hold still.
+The site title, menu button and moon button are each a `.logo` holding its
+frames (`.logo-frame` children, in order) stacked in one spot. Only the frame
+with class `current` shows; the first frame carries it in the HTML so it shows
+before any script runs. The script moves `current` back and forth through the
+frames, one step every `LOGO_FRAME_MS` (500 ms): 1 2 3 2 1 2 3 … (two frames
+just alternate). Logos that start on their own (moon, menu) are offset from
+each other by a fraction of a step so they don't change in the same instant.
+Visitors with reduced motion turned on see frame 1 held.
 
 The title is the exception (`data-swap="click"`): it holds still until someone
-clicks the middle dot in "nathan·reichen", which starts the swapping; another
-click stops it. The dot (`.title-dot`) has extra invisible padding so it's easy
-to hit. With reduced motion on, each click changes the font once instead.
+clicks the middle dot in "nathan·reichen", which steps it at once and starts
+the animation; another click stops it on whatever frame it's on. The dot
+(`.title-dot`) has extra invisible padding so it's easy to hit. With reduced
+motion on, each click moves one step instead. (Owner's default since
+2026-11-08; when the title becomes a drawing, the dot in the drawing needs to
+stay the click target.)
 
-Current placeholders: the title is "nathan·reichen" (middle dot, U+00B7) in
-Cousine, a monospace font bundled in `fonts/` (Latin subset, 15 KB, SIL Open
-Font License in `fonts/cousine-OFL.txt`, preloaded in `<head>`), alternating
-with Georgia when the dot is clicked. Cousine was picked because the owner
-liked how the title looked in a screenshot taken on a machine without Courier
-New, which substituted Liberation Mono; Cousine renders pixel-identical to it; the menu and moon are two slightly different SVG drawings each, in the
-mode's text color. To swap in drawings, replace each pair with two `<img>`s
-keeping `class="logo-frame"` (and give the title's images `alt` text).
+**Hand-drawn frames.** The owner draws three frames per logo and uploads them
+as `1`, `2`, `3` into `images/logos/title/`, `images/logos/moon/`,
+`images/logos/menu/` (each folder has a README saying what to upload). The
+uploads are the originals; the site uses small copies in a `site/` subfolder,
+made with `tools/logo_frames.py` (needs Pillow; usage in the file): crop each to its drawing, center all three on one shared
+canvas at the same scale so they line up, scale to 96px tall (3× the ~28px
+display), save as optimized PNG (~7 KB each). If an upload is a photo of
+paper rather than a transparent drawing, make the paper transparent first.
+In the HTML the frames are `<img class="logo-frame" alt="" draggable="false">`
+(the button's `aria-label` names it); `.icon-button img` uses
+`object-fit: contain`, so a non-square drawing is fine.
+
+- **Moon — live (2026-11-08).** `images/logos/moon/site/1–3.png`. The
+  drawings are a cream crescent (`#F8F1EA`) with a dark `#333` outline on a
+  transparent background, already clean as uploaded. The same files work in
+  both modes (outline shows on light; the cream reads on dark), so there's no
+  night version.
+- **Menu — placeholder:** two slightly different SVG hamburger drawings in
+  the mode's text color. Drawings not uploaded yet.
+- **Title — placeholder:** "nathan·reichen" (middle dot, U+00B7) in Cousine,
+  a monospace font bundled in `fonts/` (Latin subset, 15 KB, SIL Open Font
+  License in `fonts/cousine-OFL.txt`, preloaded in `<head>`), alternating
+  with Georgia. Cousine was picked because the owner liked how the title
+  looked in a screenshot taken on a machine without Courier New, which
+  substituted Liberation Mono; Cousine renders pixel-identical to it. Give
+  the title's images `alt` text when they replace it. Drawings not uploaded
+  yet.
+
 `images/header-name1.jpg` / `header-name2.jpg` are the old header images and
 are no longer used.
-
-**Hand-drawn logos (planned, 2026-11-08).** The owner is drawing three frames
-each for the title, moon and menu button, and uploads them as `1`, `2`, `3`
-into `images/logos/title/`, `images/logos/moon/`, `images/logos/menu/` (each
-folder has a README telling him what to upload). Raw uploads are phone photos
-or scans of ink on paper — clean them up before wiring them in: crop to the
-same box for all three frames, make the paper transparent, size for ~40px
-display (2× for retina), and make a white version for dark mode (or a CSS
-`invert` filter). Planned animation: frames play ping-pong (1 2 3 2 1 …), one
-step every 0.5 s, replacing today's two-frame random 300–1500 ms swap; reduced
-motion holds frame 1.
 
 ## Browser tab (title and icon)
 
@@ -148,7 +163,7 @@ font:
   browsers without SVG icons, and what `/favicon.ico` requests get.
 - `apple-touch-icon.png` (180px) — same, square, for iPhone home screens.
 
-When the owner draws a logo, replace all three (and keep the file names).
+The owner will upload a drawn "n" to `images/logos/tab/` (README there). Make all three files from it (keep the file names), and check it still reads at 16px and on a dark browser tab. Chrome can't animate tab icons, so it's one drawing.
 
 ## Sidebar
 
