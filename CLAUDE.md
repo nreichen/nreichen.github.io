@@ -125,6 +125,17 @@ keeping `class="logo-frame"` (and give the title's images `alt` text).
 `images/header-name1.jpg` / `header-name2.jpg` are the old header images and
 are no longer used.
 
+**Hand-drawn logos (planned, 2026-11-08).** The owner is drawing three frames
+each for the title, moon and menu button, and uploads them as `1`, `2`, `3`
+into `images/logos/title/`, `images/logos/moon/`, `images/logos/menu/` (each
+folder has a README telling him what to upload). Raw uploads are phone photos
+or scans of ink on paper — clean them up before wiring them in: crop to the
+same box for all three frames, make the paper transparent, size for ~40px
+display (2× for retina), and make a white version for dark mode (or a CSS
+`invert` filter). Planned animation: frames play ping-pong (1 2 3 2 1 …), one
+step every 0.5 s, replacing today's two-frame random 300–1500 ms swap; reduced
+motion holds frame 1.
+
 ## Browser tab (title and icon)
 
 The tab reads "nathan·reichen". The icon is a placeholder lowercase "n" in
