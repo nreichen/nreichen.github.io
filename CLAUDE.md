@@ -284,9 +284,9 @@ sidebar aren't duplicated.
   them), 00994–01002 LA (00990, 00950 and 01040/01050 moved to `00994`,
   `00995` and `01001`/`01002` to join that group), 01060–01130 Colorado
   (spring 2021 trip) and 01440–01520 Colorado (a separate summer 2020
-  trip), 01140–01300 Montana, 01380 North Dakota (bison; the owner's guess
+  trip), 01140–01340 Montana, 01380 North Dakota (bison; the owner's guess
   at the badlands, could be South Dakota), 01400–01430 Chicago. Still
-  blank: 01310–01370, 01390, and 01530 onward except the
+  blank: 01350–01370, 01390, and 01530 onward except the
   Michigan ones (02140–02185).
 - **Keep trips together** (owner's request, 2026-11-09). The order came
   from when rolls were developed, so one trip can be split across rolls.
