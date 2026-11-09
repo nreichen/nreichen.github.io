@@ -303,15 +303,18 @@ sidebar aren't duplicated.
 In the owner's Drive, under **Film**:
 
 - **Film Photos** — the originals from a Google Photos Takeout, renamed
-  `NNNNN original-name` (5 digits, newest first, counting by tens; edited
-  copies share their original's number). Photos and clips only.
+  `NNNNN original-name` (5 digits, newest first, counting by tens).
+  Photos and clips only, one file per photo.
 - **Film Photos – Takeout data** — the Takeout `.supplemental-metadata.json`
   files (dates, etc.) moved out of the way.
 - **Reto Image Stills** — RETO 3D stills the owner took off the site
   (2026-11-09). Anything moved out of Film Photos should come off the site.
-- 14 originals that were only un-rotated copies of an `-edited` file were
-  moved to the Drive trash (2026-11-09, owner's request); originals with
-  real edits (colour, crop) were kept.
+- All 41 originals that had an `-edited` copy were moved to the Drive trash
+  (2026-11-09, owner's request: no duplicates), so Film Photos holds one
+  file per photo: the `-edited` one where it exists (which the site already
+  used). 14 were only un-rotated versions; 27 also lacked Google Photos
+  colour/crop edits. The owner may rename files while re-sorting (e.g.
+  `006001 RETO-…mp4`, formerly 00070), so match by Drive file ID, not name.
 - **Film Favorites** — the owner's picks (empty so far; what favorites do
   on the site is undecided).
 
