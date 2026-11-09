@@ -281,8 +281,8 @@ sidebar aren't duplicated.
   pass-over. **Owner's pass-over, in progress:** so far 00010 Washington,
   00020–00040 Seattle, 00440 Michigan (Japan was wrong for it),
   00450–00940 Hawaii, 00960–00993 Michigan (01010 moved to `00993` to join
-  them), 00995–01002 LA (00950 moved to `00995` and 01040/01050 to
-  `01001`/`01002` to join that group), 01083–01130 Colorado
+  them), 00994–01002 LA (00990, 00950 and 01040/01050 moved to `00994`,
+  `00995` and `01001`/`01002` to join that group), 01083–01130 Colorado
   (spring 2021 trip) and 01440–01520 Colorado (a separate summer 2020
   trip), 01140–01300 Montana, 01380 North Dakota (bison; the owner's guess
   at the badlands, could be South Dakota), 01400–01430 Chicago. Still
