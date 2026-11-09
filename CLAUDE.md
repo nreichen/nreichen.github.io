@@ -283,18 +283,22 @@ sidebar aren't duplicated.
   00450–00940 Hawaii, 00960–00993 Michigan (01010 moved to `00993` to join
   them), 00994–01002 LA (00990, 00950 and 01040/01050 moved to `00994`,
   `00995` and `01001`/`01002` to join that group), 01060–01130 Colorado
-  (spring 2021 trip) and 01440–01520 Colorado (a separate summer 2020
-  trip), 01140–01340 Montana, 01380 North Dakota (bison; the owner's guess
+  (spring 2021 trip) and 01681–01910 Colorado (a separate summer 2020
+  trip around Lake Dillon; 01440–01520 moved to `01681`–`01689` to join
+  it), 01140–01340 Montana, 01380 North Dakota (bison; the owner's guess
   at the badlands, could be South Dakota), 01400–01430 Chicago. Still
-  blank: 01350–01370, 01390, and 01530 onward except the
-  Michigan ones (02140–02185).
+  blank: 01350–01370, 01390, 01530–01680, and 01920 onward except the
+  Michigan ones (02140–02185). The owner said 01690–01930 were Colorado,
+  but 01920–01930 are Sedona-looking red rocks dated summer 2018 with the
+  photos after them, so Claude held those two back and asked.
 - **Keep trips together** (owner's request, 2026-11-09). The order came
   from when rolls were developed, so one trip can be split across rolls.
   When the same place shows up in two runs from about the same time,
   rename the smaller run in Drive with in-between numbers so it sits next
   to the larger run (on the side it came from), then sync. Done so far:
-  Colorado 01020/01030 → `01083`/`01086`, Michigan 02220 → `02185` and
-  01010 → `00993`. Same
+  Colorado 01020/01030 → `01083`/`01086` and 01440–01520 →
+  `01681`–`01689`, Michigan 02220 → `02185` and 01010 → `00993`, LA 00990
+  → `00994`. Same
   place a year or so apart is a different trip; leave it. A Google Doc named `00000 Michigan (Pentax K1000)` at the top
   of the folder shows the format and explains it; the sync script ignores
   non-photo files. The original camera file names are kept in
