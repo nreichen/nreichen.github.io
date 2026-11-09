@@ -287,10 +287,9 @@ sidebar aren't duplicated.
   trip around Lake Dillon; 01440–01520 moved to `01681`–`01689` to join
   it), 01140–01340 Montana, 01380 North Dakota (bison; the owner's guess
   at the badlands, could be South Dakota), 01400–01430 Chicago. Still
-  blank: 01350–01370, 01390, 01530–01680, and 01920 onward except the
-  Michigan ones (02140–02185). The owner said 01690–01930 were Colorado,
-  but 01920–01930 are Sedona-looking red rocks dated summer 2018 with the
-  photos after them, so Claude held those two back and asked.
+  blank: 01350–01370, 01390, 01530–01680, and 01940 onward except the
+  Michigan ones (02140–02185). 01920–01930 Sedona, AZ (the owner first
+  said Colorado for 01690–01930; asked, these two were Sedona).
 - **Keep trips together** (owner's request, 2026-11-09). The order came
   from when rolls were developed, so one trip can be split across rolls.
   When the same place shows up in two runs from about the same time,
