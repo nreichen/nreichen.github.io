@@ -158,25 +158,27 @@ in `fonts/` (Latin subset, 15 KB, SIL Open Font License in
 looked in a screenshot taken on a machine without Courier New, which
 substituted Liberation Mono; Cousine renders pixel-identical to it. Cousine
 is still used for the Super 8 project titles (no longer preloaded, since
-nothing on the first screen uses it) and is what the placeholder tab icon is
-drawn from.
+nothing on the first screen uses it).
 
 `images/header-name1.jpg` / `header-name2.jpg` are the old header images and
 are no longer used.
 
 ## Browser tab (title and icon)
 
-The tab reads "nathan·reichen". The icon is a placeholder lowercase "n" in
-Cousine (drawn a little bolder so it reads at 16px), made from the bundled
-font:
+The tab reads "nathan·reichen". The icon is the owner's drawn "n"
+(`images/logos/tab/n.png`, live 2026-11-09): cream fill, thick dark outline,
+transparent background, so it reads on light and dark tabs without a
+separate dark version (checked at 16 and 32px on Chrome's light, light-gray,
+dark-gray and near-black tab colors). `tools/tab_icon.py` makes, at the repo
+root:
 
-- `favicon.svg` — what Chrome, Edge and Firefox use. A `prefers-color-scheme`
-  rule inside it turns the "n" white when the browser is in dark mode.
-- `favicon.ico` (16/32/48px) — black "n" on a white rounded tile, for
-  browsers without SVG icons, and what `/favicon.ico` requests get.
-- `apple-touch-icon.png` (180px) — same, square, for iPhone home screens.
+- `favicon.ico` — 16, 32 and 48px, transparent, linked with
+  `sizes="16x16 32x32 48x48"`. What Chrome, Edge, Firefox and Safari use.
+- `apple-touch-icon.png` (180px) — the "n" on a white square with room
+  around it, for iPhone home screens (iOS would fill transparency black).
 
-The owner will upload a drawn "n" to `images/logos/tab/` (README there). Make all three files from it (keep the file names), and check it still reads at 16px and on a dark browser tab. Chrome can't animate tab icons, so it's one drawing.
+The old placeholder (a Cousine "n" as `favicon.svg`) was removed; there's no
+SVG icon now. If the drawing is redone, upload a new `n` and rerun the script.
 
 ## Sidebar
 
