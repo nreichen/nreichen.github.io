@@ -258,10 +258,12 @@ sidebar aren't duplicated.
   the Drive connector, dry-run, then `--apply`, test, push. It mirrors:
   - **Order** — by file name as text, newest first. In-between numbers slot
     a file in (00211 between 00210 and 00230; 006001 after 00600).
-  - **Place** — the text after the number is the caption's place
-    (`00010 Ann Arbor, MI.jpg` → "Fall 2025 · Ann Arbor, MI"). Nothing after
-    the number, or the camera's own file name, means no place: the caption
-    is just season and year (owner chose "date + place" over place-only).
+  - **Place and camera** — `00010 Ann Arbor, MI (Pentax K1000).jpg` →
+    "Fall 2025 · Ann Arbor, MI · Pentax K1000" (`location` and `camera` in
+    photos.js). Both optional; nothing after the number, or the camera's own
+    file name, means neither, and the caption is just season and year
+    (owner chose "date + place" over place-only). Non-photo files in the
+    folder (e.g. an example-name doc) are ignored.
   - **Removals** — files moved out of the folder come off the site.
   - **Renumbering** — site files are renamed to the Drive number, so
     `00450.jpg` here is always `00450 …` there.
@@ -270,6 +272,14 @@ sidebar aren't duplicated.
   script refuses to run if photos.js has entries with no link. New Drive
   files are only reported; add them by hand (processing below), add their
   links, and re-run.
+- **Bulk rename in progress (stopped by the owner, 2026-11-09).** Plan was
+  to rename every Drive file to just its number, renumbered by tens in the
+  current order (`00010.jpg` … `02240.jpg`), so the owner only types place
+  and camera. Only 6 were done (old → new: 00010→00010.jpg, 00020→00020.jpg,
+  00040→00040.jpg, 00060→00050.jpeg, 00160→00060.mp4, 00190→00070.mp4);
+  order is unchanged and the site not yet synced. The owner also asked for
+  place guesses among Berlin, Japan, Nepal and Michigan to review before
+  any renaming. Ask before resuming either.
 - Current contents: 195 film photos and 29 RETO "3D" clips (imported
   2026-11-06 as 231 photos + 29 clips; the owner has since moved 36 stills
   out of Film Photos, 29 of them into "Reto Image Stills").

@@ -4,11 +4,13 @@ Nathan manages the gallery by renaming files in Drive:
   - order:     files are listed by name, so the number at the start sets the
                order (in-between numbers like 00211 or 006001 slot a file in
                between two others; names are compared as text, not values)
-  - place:     whatever follows the number is the caption's place, e.g.
-               "00010 Ann Arbor, MI.jpg" -> "Fall 2025 · Ann Arbor, MI".
-               If nothing follows, or it's still the camera's own file name
-               ("00010 AA011A-edited.jpg"), the photo has no place and the
-               caption is just the season and year.
+  - place and camera:  "00010 Ann Arbor, MI (Pentax K1000).jpg" gives the
+               caption "Fall 2025 · Ann Arbor, MI · Pentax K1000". Both are
+               optional: "00010 Ann Arbor, MI.jpg", "00010 (Pentax K1000).jpg"
+               and "00010.jpg" all work. A name still ending in the camera's
+               own file name ("00010 AA011A-edited.jpg") counts as nothing.
+               Files that aren't photos or clips (like the "00000 …" example
+               name file Nathan keeps at the top) are ignored.
   - removal:   files moved out of the folder come off the site.
 
 The site can't read the private Drive itself, so Claude fetches a listing of
@@ -48,7 +50,7 @@ def parse_photos():
         if not m:
             continue
         e = {'name': m.group(1), 'ext': m.group(2)}
-        for key in ('season', 'location'):
+        for key in ('season', 'location', 'camera'):
             k = re.search(key + r": '((?:[^'\\]|\\.)*)'", line)
             if k:
                 e[key] = k.group(1).replace("\\'", "'").replace('\\\\', '\\')
@@ -69,11 +71,14 @@ def entry_line(e):
         parts.append(f"year: {e['year']}")
     if e.get('location'):
         parts.append(f"location: {js(e['location'])}")
+    if e.get('camera'):
+        parts.append(f"camera: {js(e['camera'])}")
     return '    { ' + ', '.join(parts) + ' },'
 
 
 def main():
-    listing = json.load(open(sys.argv[1], encoding='utf-8'))['files']
+    listing = [f for f in json.load(open(sys.argv[1], encoding='utf-8'))['files']
+               if f.get('mimeType', '').startswith(('image/', 'video/'))]
     apply = '--apply' in sys.argv
     links = json.load(open(MAP, encoding='utf-8'))
     by_id = {l['drive_id']: l for l in links}
@@ -94,29 +99,39 @@ def main():
         link = by_id.get(f['id'])
         if not link:
             continue
-        prefix, _, rest = f['title'].partition(' ')
-        rest = EXT.sub('', rest.strip()).strip()
-        place = '' if rest.lower() in ('', link['original'].lower()) else rest
+        title = EXT.sub('', f['title'].strip())
+        prefix, _, rest = title.partition(' ')
+        prefix = EXT.sub('', prefix)
+        rest = rest.strip()
+        if rest.lower() == link['original'].lower():
+            rest = ''
+        camera = ''
+        m = re.match(r'^(.*?)\s*\(([^()]*)\)$', rest)
+        if m:
+            rest, camera = m.group(1).strip(), m.group(2).strip()
+        caption = (rest, camera)
         e = entries[link['site']]
         if prefix != link['site']:
             renames.append((link['site'], prefix))
-        if (e.get('location') or '') != place:
-            places.append((prefix, e.get('location') or '', place))
-        order.append((link, prefix, place))
+        old = (e.get('location') or '', e.get('camera') or '')
+        if old != caption:
+            places.append((prefix, old, caption))
+        order.append((link, prefix, caption))
 
     old_order = [l['site'] for l in links if l['drive_id'] in listed_ids]
     moved = [p for (l, p, _), o in zip(order, old_order) if l['site'] != o]
     print(f'{len(order)} on the site after sync; {len(new_files)} new in Drive; '
           f'{len(removed)} removed; {len(renames)} renumbered; '
-          f'{len(places)} place changes; order changed: {bool(moved)}')
+          f'{len(places)} place/camera changes; order changed: {bool(moved)}')
     for t in new_files:
         print('  NEW (needs adding):', t)
     for l in removed:
         print('  remove:', l['site'], l['original'])
     for a, b in renames:
         print(f'  renumber: {a} -> {b}')
+    show = lambda c: ' · '.join(x for x in c if x) or '(none)'
     for p, a, b in places:
-        print(f'  place {p}: {a or "(none)"} -> {b or "(none)"}')
+        print(f'  caption {p}: {show(a)} -> {show(b)}')
     if not apply:
         print('(dry run; add --apply to make these changes)')
         return
@@ -138,12 +153,13 @@ def main():
             if os.path.exists(os.path.join(REPO, IMG, f'{a}.sync-tmp.{ext}')):
                 git('mv', f'{IMG}/{a}.sync-tmp.{ext}', f'{IMG}/{b}.{ext}')
     lines, new_links = [], []
-    for link, prefix, place in order:
+    for link, prefix, (place, camera) in order:
         e = dict(entries[link['site']], name=prefix)
-        if place:
-            e['location'] = place
-        else:
-            e.pop('location', None)
+        for key, value in (('location', place), ('camera', camera)):
+            if value:
+                e[key] = value
+            else:
+                e.pop(key, None)
         lines.append(entry_line(e))
         new_links.append(dict(link, site=prefix))
     open(PHOTOS, 'w', encoding='utf-8').write(head + 'window.PHOTOS = [\n' + '\n'.join(lines) + '\n];\n')

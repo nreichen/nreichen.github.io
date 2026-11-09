@@ -506,10 +506,11 @@
         let galleryStarted = false;
         let galleryObserver = null;
 
-        // e.g. "Fall 2024 · Ann Arbor, MI", or "Fall 2024" with no location
+        // e.g. "Fall 2024 · Ann Arbor, MI · Pentax K1000"; parts that aren't
+        // known are left out ("Fall 2024", "Fall 2024 · Ann Arbor, MI")
         function captionFor(photo) {
             const when = [photo.season, photo.year].filter(Boolean).join(' ');
-            return [when, photo.location].filter(Boolean).join(' · ');
+            return [when, photo.location, photo.camera].filter(Boolean).join(' · ');
         }
 
         // Clips (the RETO 3D loops) play like GIFs, but only while on screen
