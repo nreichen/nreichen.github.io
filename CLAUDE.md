@@ -280,8 +280,7 @@ sidebar aren't duplicated.
   Savannah by the look of them) were left with just a number for the owner's
   pass-over. **Owner's pass-over, in progress:** so far 00010 Washington,
   00020–00040 Seattle, 00440 and 01010 Michigan (Japan was wrong for 00440),
-  00470–00940 Hawaii (00450/00460 look Hawaiian but are dated spring
-  2024, so possibly a separate trip; left blank for now), 00960–01002 LA (00950 moved to `00995` and
+  00450–00940 Hawaii, 00960–01002 LA (00950 moved to `00995` and
   01040/01050 to `01001`/`01002` to join that group), 01083–01130 Colorado
   (spring 2021 trip) and 01440–01520 Colorado (a separate summer 2020
   trip), 01140–01300 Montana, 01380 North Dakota (bison; the owner's guess
@@ -313,7 +312,10 @@ sidebar aren't duplicated.
   JPEG of the same number.
 - Captions: season + year from each photo's Google Takeout date (read in
   Ann Arbor time; for some scans that may be the upload date, so the owner
-  may ask for corrections), plus the place from the Drive file name. The
+  may ask for corrections), plus the place from the Drive file name.
+  Dates aren't in the Drive names: correct them by editing `season`/`year`
+  in photos.js, and the sync keeps the edit. Corrected so far: 00450 and
+  00460 Spring 2024 → Summer 2021 (Hawaii, re-uploaded later). The
   "Film captions" Google Sheet from 2026-11-06 is superseded by the Drive
   names.
 - 2-column grid of square cells spanning the full window width.
