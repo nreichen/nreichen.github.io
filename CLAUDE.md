@@ -252,14 +252,27 @@ sidebar aren't duplicated.
   entry is `{ src, season, year, location?, poster? }`. `src` is a repo path
   under `images/photography/` or a full `https://` URL from an image host.
   A `src` ending in `.mp4` is a clip (see below) and `poster` is its still.
-- Current contents: 202 film photos and 29 RETO "3D" clips, newest first
-  (imported 2026-11-06 as 231 photos; on 2026-11-09 the owner moved 29 RETO
-  stills out of Film Photos into a "Reto Image Stills" folder, and they were
-  dropped from the site too, leaving gaps in the numbering). Files are named by their 5-digit number from the Drive
-  folder (`00450.jpg` is `00450 …` in Drive); the numbers count by tens from
-  00010 = newest. Where Google Photos had an `-edited` copy, the site uses it.
-  Display order comes from `photos.js`, not the file names, so a newer photo
-  can go at the top under any name.
+- **Drive is the source of truth** (owner's workflow since 2026-11-09). The
+  owner arranges the Film Photos folder and Claude mirrors it with
+  `tools/sync_film.py` (usage in the file): fetch the folder listing with
+  the Drive connector, dry-run, then `--apply`, test, push. It mirrors:
+  - **Order** — by file name as text, newest first. In-between numbers slot
+    a file in (00211 between 00210 and 00230; 006001 after 00600).
+  - **Place** — the text after the number is the caption's place
+    (`00010 Ann Arbor, MI.jpg` → "Fall 2025 · Ann Arbor, MI"). Nothing after
+    the number, or the camera's own file name, means no place: the caption
+    is just season and year (owner chose "date + place" over place-only).
+  - **Removals** — files moved out of the folder come off the site.
+  - **Renumbering** — site files are renamed to the Drive number, so
+    `00450.jpg` here is always `00450 …` there.
+  `tools/film-drive-files.json` links each site file to its Drive file ID
+  and original camera name (so renamed files are still recognised). The
+  script refuses to run if photos.js has entries with no link. New Drive
+  files are only reported; add them by hand (processing below), add their
+  links, and re-run.
+- Current contents: 195 film photos and 29 RETO "3D" clips (imported
+  2026-11-06 as 231 photos + 29 clips; the owner has since moved 36 stills
+  out of Film Photos, 29 of them into "Reto Image Stills").
 - Site copies are made from the Drive originals: EXIF rotation baked in
   (00780–00810 were stored sideways with a rotate flag), long edge 1600px,
   progressive JPEG quality 80, metadata stripped (~330 KB each) **except
@@ -270,10 +283,11 @@ sidebar aren't duplicated.
   without a profile, or with plain sRGB, need nothing. Clips are
   silent H.264 MP4 (CRF 23, `+faststart`, ~400 KB) with a first-frame poster
   JPEG of the same number.
-- Captions are season + year from each photo's Google Takeout date (read in
-  Ann Arbor time). For some scans that may be the upload date rather than
-  when the photo was taken — the owner is correcting them, and adding
-  locations, in a caption sheet.
+- Captions: season + year from each photo's Google Takeout date (read in
+  Ann Arbor time; for some scans that may be the upload date, so the owner
+  may ask for corrections), plus the place from the Drive file name. The
+  "Film captions" Google Sheet from 2026-11-06 is superseded by the Drive
+  names.
 - 2-column grid of square cells spanning the full window width.
   `--photo-spacing` (20px) sets the gap between cells and the
   left/right/bottom margins alike. Each photo is fitted uncropped and
