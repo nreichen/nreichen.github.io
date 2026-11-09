@@ -81,7 +81,7 @@ dark values appear twice: once for the device setting, once for the toggle):
 | | Light (default) | Dark |
 |---|---|---|
 | Picture | `images/background-light.jpg` | `images/background-dark.jpg` |
-| Text and menu icon | `#111` (near-black) | white |
+| Text (title bar links, sidebar, Super 8) | `#333`, the logos' dark outline (`--logo-ink`) | `#F8F1EA`, the logos' cream fill (`--logo-cream`) |
 | Color while the picture loads | white | `#222` |
 
 The picture covers the whole window behind every page, fixed in place while
@@ -97,9 +97,17 @@ to its plain color. Pictures load on every visit, so keep them
 around 2560px wide and ~1 MB or less — film grain compresses poorly, and
 grayscale scans should be saved as single-channel JPEGs.
 
+Text colors come from the owner's drawings (owner's request, 2026-11-09):
+`--logo-ink` and `--logo-cream` are defined once at the top of the `:root`
+block, and `--text-color` points at one or the other per mode. Photo
+captions are always `--logo-cream`, since they sit on a dark band in both
+modes.
+
 The sidebar has no panel: its links sit directly on the background in the
 mode's text color, with the same faint shadow as the icons so they stay
-readable over gallery photos.
+readable over gallery photos. (On phones, "Super 8" overlaps the first
+photo when the menu is open; in light mode the dark-gray text is hard to
+read there.)
 
 ## Logos (title, menu, moon)
 

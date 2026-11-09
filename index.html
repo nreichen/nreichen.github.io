@@ -37,9 +37,14 @@
            data-theme on <html>. Each has its own background picture and
            text color. */
         :root {
+            /* The two colors of Nathan's drawings: the dark gray outline and
+               the cream fill. Text is the dark gray by day and the cream at
+               night, so it matches the title, menu and moon. */
+            --logo-ink: #333;
+            --logo-cream: #F8F1EA;
             --background-image: url('images/background-light.jpg');
             --background-color: white;
-            --text-color: #111;
+            --text-color: var(--logo-ink);
             --icon-shadow: rgba(255, 255, 255, 0.6);
         }
 
@@ -48,7 +53,7 @@
             :root:not([data-theme="light"]) {
                 --background-image: url('images/background-dark.jpg');
                 --background-color: #222;
-                --text-color: white;
+                --text-color: var(--logo-cream);
                 --icon-shadow: rgba(0, 0, 0, 0.5);
             }
         }
@@ -57,7 +62,7 @@
         :root[data-theme="dark"] {
             --background-image: url('images/background-dark.jpg');
             --background-color: #222;
-            --text-color: white;
+            --text-color: var(--logo-cream);
             --icon-shadow: rgba(0, 0, 0, 0.5);
         }
 
@@ -277,7 +282,8 @@
             right: 0;
             bottom: 0;
             padding: 24px 12px 10px;
-            color: white;
+            /* Captions sit on a dark band in both modes, so always cream */
+            color: var(--logo-cream);
             font-size: 14px;
             background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
             opacity: 0;
