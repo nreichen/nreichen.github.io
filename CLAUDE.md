@@ -260,7 +260,11 @@ sidebar aren't duplicated.
   can go at the top under any name.
 - Site copies are made from the Drive originals: EXIF rotation baked in
   (00780–00810 were stored sideways with a rotate flag), long edge 1600px,
-  progressive JPEG quality 80, metadata stripped (~330 KB each). Clips are
+  progressive JPEG quality 80, metadata stripped (~330 KB each) **except
+  the colour profile**: 29 of the 3D-camera stills (00110–00720) are Display
+  P3 and must keep their ICC profile, or browsers read them as sRGB and they
+  look ~13% less saturated (fixed 2026-11-09; they had been stripped). Files
+  without a profile, or with plain sRGB, need nothing. Clips are
   silent H.264 MP4 (CRF 23, `+faststart`, ~400 KB) with a first-frame poster
   JPEG of the same number.
 - Captions are season + year from each photo's Google Takeout date (read in
