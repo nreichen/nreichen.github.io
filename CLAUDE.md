@@ -272,14 +272,16 @@ sidebar aren't duplicated.
   script refuses to run if photos.js has entries with no link. New Drive
   files are only reported; add them by hand (processing below), add their
   links, and re-run.
-- **Bulk rename in progress (stopped by the owner, 2026-11-09).** Plan was
-  to rename every Drive file to just its number, renumbered by tens in the
-  current order (`00010.jpg` … `02240.jpg`), so the owner only types place
-  and camera. Only 6 were done (old → new: 00010→00010.jpg, 00020→00020.jpg,
-  00040→00040.jpg, 00060→00050.jpeg, 00160→00060.mp4, 00190→00070.mp4);
-  order is unchanged and the site not yet synced. The owner also asked for
-  place guesses among Berlin, Japan, Nepal and Michigan to review before
-  any renaming. Ask before resuming either.
+- **Bulk rename done (2026-11-09).** Every Drive file was renamed to its
+  number, renumbered by tens in the owner's order (`00010` … `02240`), plus a
+  guessed place where Claude could tell: Berlin (1), Nepal (19), Japan (20),
+  Michigan (6) — the four places the owner named. The other 178 (Seattle?,
+  Hawaii, Glacier, Chicago, Colorado, Yellowstone, Sedona, Montreal,
+  Savannah by the look of them) were left with just a number for the owner's
+  pass-over. A Google Doc named `00000 Michigan (Pentax K1000)` at the top
+  of the folder shows the format and explains it; the sync script ignores
+  non-photo files. The original camera file names are kept in
+  `tools/film-drive-files.json` (`original`).
 - Current contents: 195 film photos and 29 RETO "3D" clips (imported
   2026-11-06 as 231 photos + 29 clips; the owner has since moved 36 stills
   out of Film Photos, 29 of them into "Reto Image Stills").
