@@ -279,9 +279,10 @@ sidebar aren't duplicated.
   Hawaii, Glacier, Chicago, Colorado, Yellowstone, Sedona, Montreal,
   Savannah by the look of them) were left with just a number for the owner's
   pass-over. **Owner's pass-over, in progress:** so far 00010 Washington,
-  00020–00040 Seattle, 00440 and 01010 Michigan (Japan was wrong for 00440),
-  00450–00940 Hawaii, 00960–01002 LA (00950 moved to `00995` and
-  01040/01050 to `01001`/`01002` to join that group), 01083–01130 Colorado
+  00020–00040 Seattle, 00440 Michigan (Japan was wrong for it),
+  00450–00940 Hawaii, 00960–00993 Michigan (01010 moved to `00993` to join
+  them), 00995–01002 LA (00950 moved to `00995` and 01040/01050 to
+  `01001`/`01002` to join that group), 01083–01130 Colorado
   (spring 2021 trip) and 01440–01520 Colorado (a separate summer 2020
   trip), 01140–01300 Montana, 01380 North Dakota (bison; the owner's guess
   at the badlands, could be South Dakota), 01400–01430 Chicago. Still
@@ -292,7 +293,8 @@ sidebar aren't duplicated.
   When the same place shows up in two runs from about the same time,
   rename the smaller run in Drive with in-between numbers so it sits next
   to the larger run (on the side it came from), then sync. Done so far:
-  Colorado 01020/01030 → `01083`/`01086`, Michigan 02220 → `02185`. Same
+  Colorado 01020/01030 → `01083`/`01086`, Michigan 02220 → `02185` and
+  01010 → `00993`. Same
   place a year or so apart is a different trip; leave it. A Google Doc named `00000 Michigan (Pentax K1000)` at the top
   of the folder shows the format and explains it; the sync script ignores
   non-photo files. The original camera file names are kept in
