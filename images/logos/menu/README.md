@@ -1,16 +1,15 @@
-# Drawings for the menu button that opens the sidebar (top left)
+# Drawings for the menu button (top left)
 
-Upload three drawings here, named **1**, **2** and **3** (any format:
-.png, .jpg or .heic, and phone photos of paper drawings are fine).
+**Live on the site since 2026-11-09.** The three drawings here (1, 2, 3)
+are the originals; the site uses small copies of them in the `site`
+folder (96px tall, all three lined up on the same canvas), playing
+1 2 3 2 1 2 3 … one step every half second. The button still turns
+sideways when the menu opens.
 
-They'll play in the order 1 2 3 2 1 2 3 2 1 … changing every half
-second, so draw the three as small variations of the same picture,
-framed the same way, so they wiggle in place rather than jump.
-
-- Dark ink on plain white paper, and a slightly thick pen: it shows
-  about 40px tall on the site, so thin lines disappear.
-- Claude cleans them up before they go live: crops them, removes
-  the paper so they sit on the background, sizes them, and makes a
-  white version for night mode.
+To change it, upload new drawings here with the same names (1, 2 and
+3; any format, phone photos of paper drawings are fine) and ask Claude
+to remake the small copies. The same cream fill and dark outline work
+on both the light and the night background, so there's no separate
+night version.
 
 To upload: open this folder on github.com, then Add file › Upload files.

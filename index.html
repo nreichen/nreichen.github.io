@@ -103,12 +103,10 @@
             filter: drop-shadow(0 1px 2px var(--icon-shadow));
         }
 
-        .icon-button svg,
         .icon-button img {
             display: block;
             width: 100%;
             height: 100%;
-            fill: currentColor;
             object-fit: contain;
         }
 
@@ -370,9 +368,8 @@
     <!-- The title, menu, and moon are "logos": each holds its drawings
          (class="logo-frame") in order, and the script plays them back and
          forth (1 2 3 2 1 …) so the hand-drawn ones look alive. The first
-         frame is marked "current" so it shows before the script runs. The
-         moon and title are Nathan's drawings (small copies in
-         images/logos/*/site/); the menu is still a placeholder. -->
+         frame is marked "current" so it shows before the script runs. All
+         three are Nathan's drawings (small copies in images/logos/*/site/). -->
 
     <!-- Night mode toggle in the top right -->
     <button id="themeToggle" class="icon-button theme-toggle logo" type="button" aria-label="Night mode" aria-pressed="false">
@@ -383,8 +380,9 @@
 
     <!-- Menu button in the top left -->
     <button id="menuIcon" class="icon-button menu-icon logo" type="button" aria-label="Menu" aria-expanded="false">
-        <svg class="logo-frame current" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-        <svg class="logo-frame" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 6.5h17M2.5 12h18.5M4 17.5h16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <img class="logo-frame current" src="images/logos/menu/site/1.png" alt="" draggable="false">
+        <img class="logo-frame" src="images/logos/menu/site/2.png" alt="" draggable="false">
+        <img class="logo-frame" src="images/logos/menu/site/3.png" alt="" draggable="false">
     </button>
 
     <!-- Site title -->

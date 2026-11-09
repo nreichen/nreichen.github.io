@@ -149,8 +149,13 @@ menu and text selection turned off (`.logo img`).
   shrinking on narrow phones to stay between the menu and moon buttons
   (`max-width: calc(100vw - 140px)`, `object-fit: contain`). Each frame has
   `alt="nathan·reichen"`; only the visible one is read out.
-- **Menu — placeholder:** two slightly different SVG hamburger drawings in
-  the mode's text color. Drawings not uploaded yet.
+- **Menu — live (2026-11-09).** `images/logos/menu/site/1–3.png` (120×96,
+  ~2 KB each), three hand-drawn bars in the same cream and dark outline;
+  same scale for all frames (they differ more in width than height). Still
+  turns 90° when the sidebar opens (`.menu-icon.open`).
+
+All three logos and the tab icon are now the owner's drawings; the SVG
+placeholders are gone.
 
 Before the drawing, the title was text in Cousine, a monospace font bundled
 in `fonts/` (Latin subset, 15 KB, SIL Open Font License in
