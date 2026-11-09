@@ -288,7 +288,7 @@ sidebar aren't duplicated.
   it, along with 01670–01680, the same Lake Dillon night view),
   01140–01340 Montana, 01380 North Dakota (bison; the owner's guess at the
   badlands, could be South Dakota), 01400–01430 Chicago, 01530–01580
-  Grand Teton, 01590–01660 Yellowstone (the owner said "tetons"; the
+  Grand Tetons, 01590–01660 Yellowstone (the owner said "tetons"; the
   geysers and hot springs are Yellowstone, so Claude split them),
   01920–02020 Sedona, AZ (the owner first said Colorado for 01690–01930;
   asked, 01920–01930 were Sedona), 02030–02120 Toronto, 02190–02210 North
