@@ -372,10 +372,13 @@
 
     <!-- Site title -->
     <div class="header-container">
-        <h1 class="site-title logo">
-            <img class="logo-frame current" src="images/logos/title/site/1.png" alt="nathan·reichen" draggable="false">
-            <img class="logo-frame" src="images/logos/title/site/2.png" alt="nathan·reichen" draggable="false">
-            <img class="logo-frame" src="images/logos/title/site/3.png" alt="nathan·reichen" draggable="false">
+        <h1 class="site-title">
+            <!-- Clicking the title goes to the home page -->
+            <a href="./" class="title-link logo">
+                <img class="logo-frame current" src="images/logos/title/site/1.png" alt="nathan·reichen" draggable="false">
+                <img class="logo-frame" src="images/logos/title/site/2.png" alt="nathan·reichen" draggable="false">
+                <img class="logo-frame" src="images/logos/title/site/3.png" alt="nathan·reichen" draggable="false">
+            </a>
         </h1>
     </div>
 
@@ -762,6 +765,21 @@
 
         window.addEventListener('hashchange', showCurrentPage);
         showCurrentPage();
+
+        // Clicking the title goes to the home page (Film, for now) and back
+        // to the top, without reloading. The link's plain address ("./")
+        // still works on its own, e.g. Cmd/Ctrl-click for a new tab.
+        document.querySelector('.title-link').addEventListener('click', function(event) {
+            if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            event.preventDefault();
+            if (window.location.hash) {
+                // Drop the #super8 etc. from the address; Back returns to it
+                history.pushState(null, '', window.location.pathname + window.location.search);
+                showCurrentPage();
+            }
+            if (isSidebarOpen) toggleSidebar();
+            window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+        });
 
         // ---- Logos ----
         // Each logo plays its frames back and forth, one step every

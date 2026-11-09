@@ -114,8 +114,17 @@ change in the same instant. Visitors with reduced motion turned on see
 frame 1 held.
 
 The title used to hold still until someone clicked the middle dot; since
-2026-11-09 it plays on its own like the others (owner's request), and
-clicking it does nothing.
+2026-11-09 it plays on its own like the others (owner's request).
+
+**The title is the home link** (owner's request, 2026-11-09). Its frames sit
+in `<a href="./" class="title-link logo">` inside the `<h1 class="site-title">`
+(the `.logo` class moved to the link, since the frames must be the logo's
+direct children). A click handler goes home without reloading: it drops any
+`#super8` etc. from the address with `history.pushState` (so Back returns to
+it), calls `showCurrentPage()`, closes the sidebar if open, and scrolls to the
+top (smoothly, unless reduced motion). Cmd/Ctrl/Shift/middle clicks are left
+to the browser, so they open the plain `./` address in a new tab. "Home" is
+Film for now; when there's a real home page, the title goes there.
 
 **Hand-drawn frames.** The owner draws three frames per logo and uploads them
 as `1`, `2`, `3` into `images/logos/title/`, `images/logos/moon/`,
@@ -198,7 +207,8 @@ plays both ways.
 
 Pages are `<main>` sections in `index.html`, switched by the URL hash in
 `showCurrentPage()`: `#super8` shows Super 8; anything else (no hash, `#`,
-`#film`, the old `#photography`, typos) shows Film.
+`#film`, the old `#photography`, typos) shows Film. The title also goes home
+(see Logos).
 
 ## Film page (photo gallery)
 
