@@ -32,6 +32,15 @@
             font-display: swap;
         }
 
+        /* Semibold, only for the sidebar links (cream letters with a dark
+           outline need thicker strokes so the cream shows) */
+        @font-face {
+            font-family: 'Instrument Sans';
+            src: url('fonts/instrument-sans-latin-600-normal.woff2') format('woff2');
+            font-weight: 600;
+            font-display: swap;
+        }
+
         /* Light and dark versions of the site. The visitor's device setting
            picks one until they choose with the moon button, which sets
            data-theme on <html>. Each has its own background picture and
@@ -206,14 +215,20 @@
             padding: 80px 20px 20px;
         }
 
+        /* Links drawn like the title in both modes: cream letters with a
+           dark outline. The stroke is painted behind the letters
+           (paint-order), so only its outer half shows, as an outline. */
         .sidebar-link {
             display: block;
             margin-bottom: 15px;
-            color: var(--text-color);
+            color: var(--logo-cream);
+            -webkit-text-stroke: 3px var(--logo-ink);
+            paint-order: stroke fill;
             text-decoration: none;
-            font-size: 18px;
-            /* Keeps the links readable over photos */
-            text-shadow: 0 1px 2px var(--icon-shadow);
+            font-size: 20px;
+            font-weight: 600;
+            /* Same faint shadow as the title and icons */
+            filter: drop-shadow(0 1px 2px var(--icon-shadow));
             transition: opacity 0.2s;
         }
 

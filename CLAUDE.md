@@ -81,7 +81,7 @@ dark values appear twice: once for the device setting, once for the toggle):
 | | Light (default) | Dark |
 |---|---|---|
 | Picture | `images/background-light.jpg` | `images/background-dark.jpg` |
-| Text (title bar links, sidebar, Super 8) | `#333`, the logos' dark outline (`--logo-ink`) | `#F8F1EA`, the logos' cream fill (`--logo-cream`) |
+| Text (Super 8 page etc.) | `#333`, the logos' dark outline (`--logo-ink`) | `#F8F1EA`, the logos' cream fill (`--logo-cream`) |
 | Color while the picture loads | white | `#222` |
 
 The picture covers the whole window behind every page, fixed in place while
@@ -103,9 +103,13 @@ block, and `--text-color` points at one or the other per mode. Photo
 captions are always `--logo-cream`, since they sit on a dark band in both
 modes.
 
-The sidebar has no panel: its links sit directly on the background in the
-mode's text color, with the same faint shadow as the icons so they stay
-readable over gallery photos. Opening the menu at the top of a page slides
+The sidebar has no panel: its links sit directly on the background, drawn
+like the title in **both** modes (owner's request, 2026-11-09): cream
+letters (`--logo-cream`) with a dark `--logo-ink` outline, semibold 20px,
+plus the title's faint drop shadow. The outline is a 3px
+`-webkit-text-stroke` with `paint-order: stroke fill`, so the stroke sits
+behind the letters and only its outer 1.5px shows (Chrome 123+, Safari,
+Firefox). Readable over gallery photos too. Opening the menu at the top of a page slides
 the content down below the links (see Sidebar), so they sit on clear
 mountains there.
 
@@ -190,8 +194,12 @@ photo captions, Super 8 titles/dates/paragraphs and the "coming soon" line
 all inherit it; fallbacks are Helvetica Neue, Arial, sans-serif. It was
 picked over Inter, Arimo, DM Sans, Work Sans and Geist partly because it's
 narrow, so phone captions with a place ("Fall 2025 · Seattle, WA") fit on
-one line more often. Nothing uses bold or italic; if that changes, add the
-matching file from the same package rather than letting the browser fake it.
+one line more often. The sidebar links alone use **semibold (600)**,
+`fonts/instrument-sans-latin-600-normal.woff2` (17 KB, same package):
+outlined cream letters need thicker strokes for the cream to show (regular
+looked thin; bold looked heavy next to the title). Nothing else uses bold
+or italic; if that changes, add the matching file from the same package
+rather than letting the browser fake it.
 No preload: hidden captions and sidebar links still lay out text, so the
 font is fetched early anyway.
 
