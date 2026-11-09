@@ -21,12 +21,13 @@
         } catch (e) {}
     </script>
     <style>
-        /* Font for the Super 8 project titles, bundled with the site so every
-           visitor sees the same one (Cousine, SIL Open Font License:
-           fonts/cousine-OFL.txt) */
+        /* The site's one font, for every caption, link and paragraph (the
+           title and icons are drawings). Bundled with the site so every
+           visitor sees the same one: Instrument Sans, regular weight, Latin
+           letters (SIL Open Font License: fonts/instrument-sans-OFL.txt) */
         @font-face {
-            font-family: 'Cousine';
-            src: url('fonts/cousine-latin-400-normal.woff2') format('woff2');
+            font-family: 'Instrument Sans';
+            src: url('fonts/instrument-sans-latin-400-normal.woff2') format('woff2');
             font-weight: 400;
             font-display: swap;
         }
@@ -69,7 +70,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: sans-serif;
+            font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
             overflow-x: hidden;
         }
 
@@ -330,7 +331,6 @@
 
         .video-project h2 {
             margin: 28px 0 4px;
-            font-family: Cousine, 'Liberation Mono', 'Courier New', monospace;
             font-size: 22px;
             font-weight: normal;
         }

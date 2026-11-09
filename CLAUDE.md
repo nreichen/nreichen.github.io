@@ -163,16 +163,29 @@ menu and text selection turned off (`.logo img`).
 All three logos and the tab icon are now the owner's drawings; the SVG
 placeholders are gone.
 
-Before the drawing, the title was text in Cousine, a monospace font bundled
-in `fonts/` (Latin subset, 15 KB, SIL Open Font License in
-`fonts/cousine-OFL.txt`). It was picked because the owner liked how the title
-looked in a screenshot taken on a machine without Courier New, which
-substituted Liberation Mono; Cousine renders pixel-identical to it. Cousine
-is still used for the Super 8 project titles (no longer preloaded, since
-nothing on the first screen uses it).
+Before the drawing, the title was text in Cousine, a monospace font (picked
+because the owner liked how the title looked on a machine that substituted
+Liberation Mono for Courier New). It was removed with the font change below;
+it's in git history if ever wanted.
 
 `images/header-name1.jpg` / `header-name2.jpg` are the old header images and
 are no longer used.
+
+## Fonts
+
+One font for all text (owner's choice, 2026-11-09, "simple text
+throughout"): **Instrument Sans**, regular weight only, Latin subset, bundled
+as `fonts/instrument-sans-latin-400-normal.woff2` (17 KB, from the
+`@fontsource/instrument-sans` npm package; SIL Open Font License in
+`fonts/instrument-sans-OFL.txt`). Set once on `body`, so sidebar links,
+photo captions, Super 8 titles/dates/paragraphs and the "coming soon" line
+all inherit it; fallbacks are Helvetica Neue, Arial, sans-serif. It was
+picked over Inter, Arimo, DM Sans, Work Sans and Geist partly because it's
+narrow, so phone captions with a place ("Fall 2025 · Seattle, WA") fit on
+one line more often. Nothing uses bold or italic; if that changes, add the
+matching file from the same package rather than letting the browser fake it.
+No preload: hidden captions and sidebar links still lay out text, so the
+font is fetched early anyway.
 
 ## Browser tab (title and icon)
 
