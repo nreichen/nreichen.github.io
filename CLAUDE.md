@@ -285,11 +285,16 @@ sidebar aren't duplicated.
   `00995` and `01001`/`01002` to join that group), 01060–01130 Colorado
   (spring 2021 trip) and 01681–01910 Colorado (a separate summer 2020
   trip around Lake Dillon; 01440–01520 moved to `01681`–`01689` to join
-  it), 01140–01340 Montana, 01380 North Dakota (bison; the owner's guess
-  at the badlands, could be South Dakota), 01400–01430 Chicago. Still
-  blank: 01350–01370, 01390, 01530–01680, 02130, 02190–02240.
+  it, along with 01670–01680, the same Lake Dillon night view),
+  01140–01340 Montana, 01380 North Dakota (bison; the owner's guess at the
+  badlands, could be South Dakota), 01400–01430 Chicago, 01530–01580
+  Grand Teton, 01590–01660 Yellowstone (the owner said "tetons"; the
+  geysers and hot springs are Yellowstone, so Claude split them),
   01920–02020 Sedona, AZ (the owner first said Colorado for 01690–01930;
-  asked, 01920–01930 were Sedona). 02030–02120 Toronto.
+  asked, 01920–01930 were Sedona), 02030–02120 Toronto, 02190–02210 North
+  Carolina (not Savannah). Places the owner doesn't know are "USA":
+  01350–01370, 01390, 02130, 02230–02240. **Every photo now has a place**
+  (2026-11-09).
 - **Keep trips together** (owner's request, 2026-11-09). The order came
   from when rolls were developed, so one trip can be split across rolls.
   When the same place shows up in two runs from about the same time,
