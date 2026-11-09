@@ -9,7 +9,6 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="icon" href="favicon.ico" sizes="48x48">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="preload" href="fonts/cousine-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <script>
         // Apply a light/dark choice saved by the moon button before the page
         // draws, so it doesn't flash the other version first
@@ -21,8 +20,9 @@
         } catch (e) {}
     </script>
     <style>
-        /* Title font, bundled with the site so every visitor sees the same
-           one (Cousine, SIL Open Font License: fonts/cousine-OFL.txt) */
+        /* Font for the Super 8 project titles, bundled with the site so every
+           visitor sees the same one (Cousine, SIL Open Font License:
+           fonts/cousine-OFL.txt) */
         @font-face {
             font-family: 'Cousine';
             src: url('fonts/cousine-latin-400-normal.woff2') format('woff2');
@@ -153,33 +153,43 @@
             justify-content: center;
         }
 
-        /* Site title (placeholder: the same name in two fonts; the first,
-           Cousine, shows until the dot is clicked) */
+        /* Site title: Nathan's hand-drawn "nathan·reichen", three frames */
         .site-title {
+            position: relative;
             margin: 0;
+            filter: drop-shadow(0 1px 2px var(--icon-shadow));
+        }
+
+        .site-title img {
+            display: block;
             height: 40px; /* Same height as the icons */
-            font-size: 26px;
-            font-weight: normal;
-            line-height: 40px;
-            white-space: nowrap;
-            color: var(--text-color);
-            text-shadow: 0 1px 2px var(--icon-shadow);
+            width: auto;
+            /* Never wider than the gap between the menu and moon buttons
+               (each 20px from the edge, 40px wide, plus 10px breathing room);
+               on narrow phones the drawing shrinks to fit */
+            max-width: calc(100vw - 140px);
+            object-fit: contain;
         }
 
-        .title-font-a {
-            font-family: Cousine, 'Liberation Mono', 'Courier New', monospace;
+        /* No long-press "Save image" menu or text selection on the logos */
+        .logo img {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
-        .title-font-b {
-            font-family: Georgia, 'Times New Roman', serif;
-        }
-
-        /* Clicking the dot starts and stops the title swapping. The padding
-           (cancelled out by the negative margin) makes it easier to hit. */
+        /* Clicking the dot in the drawing starts and stops the title's
+           animation. This invisible spot sits over the dot (at the center of
+           all three drawings) and is bigger than it, so it's easy to hit. */
         .title-dot {
+            position: absolute;
+            left: 50.2%;
+            top: 52%;
+            width: 28px;
+            height: 28px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
             cursor: pointer;
-            padding: 10px 6px;
-            margin: -10px -6px;
         }
 
         /* Sidebar menu: no panel, just links over the background. While
@@ -360,8 +370,8 @@
          (class="logo-frame") in order, and the script plays them back and
          forth (1 2 3 2 1 …) so the hand-drawn ones look alive. The first
          frame is marked "current" so it shows before the script runs. The
-         moon is Nathan's drawing (small copies in images/logos/moon/site/);
-         the menu and title are still placeholders. -->
+         moon and title are Nathan's drawings (small copies in
+         images/logos/*/site/); the menu is still a placeholder. -->
 
     <!-- Night mode toggle in the top right -->
     <button id="themeToggle" class="icon-button theme-toggle logo" type="button" aria-label="Night mode" aria-pressed="false">
@@ -379,8 +389,10 @@
     <!-- Site title -->
     <div class="header-container">
         <h1 class="site-title logo" data-swap="click">
-            <span class="logo-frame current title-font-a">nathan<span class="title-dot">·</span>reichen</span>
-            <span class="logo-frame title-font-b">nathan<span class="title-dot">·</span>reichen</span>
+            <img class="logo-frame current" src="images/logos/title/site/1.png" alt="nathan·reichen" draggable="false">
+            <img class="logo-frame" src="images/logos/title/site/2.png" alt="nathan·reichen" draggable="false">
+            <img class="logo-frame" src="images/logos/title/site/3.png" alt="nathan·reichen" draggable="false">
+            <span class="title-dot" aria-hidden="true"></span>
         </h1>
     </div>
 

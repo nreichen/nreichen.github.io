@@ -114,39 +114,52 @@ Visitors with reduced motion turned on see frame 1 held.
 
 The title is the exception (`data-swap="click"`): it holds still until someone
 clicks the middle dot in "nathan·reichen", which steps it at once and starts
-the animation; another click stops it on whatever frame it's on. The dot
-(`.title-dot`) has extra invisible padding so it's easy to hit. With reduced
-motion on, each click moves one step instead. (Owner's default since
-2026-11-08; when the title becomes a drawing, the dot in the drawing needs to
-stay the click target.)
+the animation; another click stops it on whatever frame it's on. The click
+target is `.title-dot`, an invisible 28px circle positioned over the drawn
+dot (50.2% across, 52% down — the dot sits there in all three drawings; if
+the title drawings are redone, re-measure). Clicks elsewhere on the title do
+nothing. With reduced motion on, each click moves one step instead.
 
 **Hand-drawn frames.** The owner draws three frames per logo and uploads them
 as `1`, `2`, `3` into `images/logos/title/`, `images/logos/moon/`,
 `images/logos/menu/` (each folder has a README saying what to upload). The
 uploads are the originals; the site uses small copies in a `site/` subfolder,
 made with `tools/logo_frames.py` (needs Pillow; usage in the file): crop each to its drawing, center all three on one shared
-canvas at the same scale so they line up, scale to 96px tall (3× the ~28px
-display), save as optimized PNG (~7 KB each). If an upload is a photo of
+canvas so they line up, scale (96px tall for the icons, 3× their ~28px
+display; 120px for the 40px title), and save as 64-color PNGs (looks
+identical, a fifth of the size). By default all frames keep one scale;
+`--same-width` (used for the title) scales each to the same width instead,
+since the three title drawings were made at different sizes (up to 11%) and
+the word would otherwise grow and shrink. If an upload is a photo of
 paper rather than a transparent drawing, make the paper transparent first.
 In the HTML the frames are `<img class="logo-frame" alt="" draggable="false">`
-(the button's `aria-label` names it); `.icon-button img` uses
-`object-fit: contain`, so a non-square drawing is fine.
+(the button's `aria-label` names it; the title's frames have `alt` text
+instead); `.icon-button img` uses `object-fit: contain`, so a non-square
+drawing is fine. Logo images also have the iPhone long-press "Save image"
+menu and text selection turned off (`.logo img`).
 
-- **Moon — live (2026-11-08).** `images/logos/moon/site/1–3.png`. The
-  drawings are a cream crescent (`#F8F1EA`) with a dark `#333` outline on a
-  transparent background, already clean as uploaded. The same files work in
-  both modes (outline shows on light; the cream reads on dark), so there's no
-  night version.
+- **Moon — live (2026-11-08).** `images/logos/moon/site/1–3.png` (~1.5 KB
+  each). The drawings are a cream crescent (`#F8F1EA`) with a dark `#333`
+  outline on a transparent background, already clean as uploaded. The same
+  files work in both modes (outline shows on light; the cream reads on
+  dark), so there's no night version.
+- **Title — live (2026-11-09).** `images/logos/title/site/1–3.png` (826×120,
+  ~14 KB each), "nathan·reichen" hand-lettered in the same cream and dark
+  outline, so again no night version. Shown 40px tall (`.site-title img`),
+  shrinking on narrow phones to stay between the menu and moon buttons
+  (`max-width: calc(100vw - 140px)`, `object-fit: contain`). Each frame has
+  `alt="nathan·reichen"`; only the visible one is read out.
 - **Menu — placeholder:** two slightly different SVG hamburger drawings in
   the mode's text color. Drawings not uploaded yet.
-- **Title — placeholder:** "nathan·reichen" (middle dot, U+00B7) in Cousine,
-  a monospace font bundled in `fonts/` (Latin subset, 15 KB, SIL Open Font
-  License in `fonts/cousine-OFL.txt`, preloaded in `<head>`), alternating
-  with Georgia. Cousine was picked because the owner liked how the title
-  looked in a screenshot taken on a machine without Courier New, which
-  substituted Liberation Mono; Cousine renders pixel-identical to it. Give
-  the title's images `alt` text when they replace it. Drawings not uploaded
-  yet.
+
+Before the drawing, the title was text in Cousine, a monospace font bundled
+in `fonts/` (Latin subset, 15 KB, SIL Open Font License in
+`fonts/cousine-OFL.txt`). It was picked because the owner liked how the title
+looked in a screenshot taken on a machine without Courier New, which
+substituted Liberation Mono; Cousine renders pixel-identical to it. Cousine
+is still used for the Super 8 project titles (no longer preloaded, since
+nothing on the first screen uses it) and is what the placeholder tab icon is
+drawn from.
 
 `images/header-name1.jpg` / `header-name2.jpg` are the old header images and
 are no longer used.
