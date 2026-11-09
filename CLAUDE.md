@@ -280,7 +280,8 @@ sidebar aren't duplicated.
   Savannah by the look of them) were left with just a number for the owner's
   pass-over. **Owner's pass-over, in progress:** so far 00010 Washington,
   00020–00040 Seattle, 00440 and 01010 Michigan (Japan was wrong for 00440),
-  00450–00940 Hawaii, 00960–01002 LA (00950 moved to `00995` and
+  00470–00940 Hawaii (00450/00460 look Hawaiian but are dated spring
+  2024, so possibly a separate trip; left blank for now), 00960–01002 LA (00950 moved to `00995` and
   01040/01050 to `01001`/`01002` to join that group), 01083–01130 Colorado
   (spring 2021 trip) and 01440–01520 Colorado (a separate summer 2020
   trip), 01140–01300 Montana, 01380 North Dakota (bison; the owner's guess
