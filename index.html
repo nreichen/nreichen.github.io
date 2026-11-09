@@ -154,7 +154,6 @@
 
         /* Site title: Nathan's hand-drawn "nathan·reichen", three frames */
         .site-title {
-            position: relative;
             margin: 0;
             filter: drop-shadow(0 1px 2px var(--icon-shadow));
         }
@@ -175,20 +174,6 @@
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             user-select: none;
-        }
-
-        /* Clicking the dot in the drawing starts and stops the title's
-           animation. This invisible spot sits over the dot (at the center of
-           all three drawings) and is bigger than it, so it's easy to hit. */
-        .title-dot {
-            position: absolute;
-            left: 50.2%;
-            top: 52%;
-            width: 28px;
-            height: 28px;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            cursor: pointer;
         }
 
         /* Sidebar menu: no panel, just links over the background. While
@@ -387,11 +372,10 @@
 
     <!-- Site title -->
     <div class="header-container">
-        <h1 class="site-title logo" data-swap="click">
+        <h1 class="site-title logo">
             <img class="logo-frame current" src="images/logos/title/site/1.png" alt="nathan·reichen" draggable="false">
             <img class="logo-frame" src="images/logos/title/site/2.png" alt="nathan·reichen" draggable="false">
             <img class="logo-frame" src="images/logos/title/site/3.png" alt="nathan·reichen" draggable="false">
-            <span class="title-dot" aria-hidden="true"></span>
         </h1>
     </div>
 
@@ -782,12 +766,10 @@
         // ---- Logos ----
         // Each logo plays its frames back and forth, one step every
         // LOGO_FRAME_MS: 1 2 3 2 1 2 3 … (two frames just alternate). The
-        // logos that start on their own are offset from each other so they
-        // don't all change at the same instant. The title
-        // (data-swap="click") only animates after its dot is clicked.
-        // Visitors who ask their device to reduce motion see frame 1 held.
+        // logos are offset from each other by a fraction of a step so they
+        // don't all change at the same instant. Visitors who ask their
+        // device to reduce motion see frame 1 held.
         const LOGO_FRAME_MS = 500;
-        const logoTimers = new Map();
 
         // Move one step along the back-and-forth sequence
         function stepLogo(logo) {
@@ -807,39 +789,18 @@
         }
 
         function startAnimating(logo, delay) {
-            logoTimers.set(logo, setTimeout(function() {
+            setTimeout(function() {
                 stepLogo(logo);
-                logoTimers.set(logo, setInterval(stepLogo, LOGO_FRAME_MS, logo));
-            }, LOGO_FRAME_MS + (delay || 0)));
-        }
-
-        function stopAnimating(logo) {
-            // Timer ids from setTimeout and setInterval share one pool, so
-            // clearTimeout cancels either
-            clearTimeout(logoTimers.get(logo));
-            logoTimers.delete(logo);
+                setInterval(stepLogo, LOGO_FRAME_MS, logo);
+            }, LOGO_FRAME_MS + delay);
         }
 
         if (!reduceMotion) {
-            const autoLogos = document.querySelectorAll('.logo:not([data-swap="click"])');
-            autoLogos.forEach(function(logo, i) {
-                startAnimating(logo, LOGO_FRAME_MS * i / autoLogos.length);
+            const logos = document.querySelectorAll('.logo');
+            logos.forEach(function(logo, i) {
+                startAnimating(logo, LOGO_FRAME_MS * i / logos.length);
             });
         }
-
-        // Clicking the title's dot starts its animation; clicking again stops it
-        const siteTitleElement = document.querySelector('.site-title');
-        siteTitleElement.addEventListener('click', function(event) {
-            if (!event.target.classList.contains('title-dot')) return;
-            if (reduceMotion) {
-                stepLogo(siteTitleElement);  // one step per click
-            } else if (logoTimers.has(siteTitleElement)) {
-                stopAnimating(siteTitleElement);
-            } else {
-                stepLogo(siteTitleElement);  // respond to the click right away
-                startAnimating(siteTitleElement);
-            }
-        });
     </script>
 </body>
 </html>

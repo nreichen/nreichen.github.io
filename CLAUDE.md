@@ -108,17 +108,14 @@ frames (`.logo-frame` children, in order) stacked in one spot. Only the frame
 with class `current` shows; the first frame carries it in the HTML so it shows
 before any script runs. The script moves `current` back and forth through the
 frames, one step every `LOGO_FRAME_MS` (500 ms): 1 2 3 2 1 2 3 … (two frames
-just alternate). Logos that start on their own (moon, menu) are offset from
-each other by a fraction of a step so they don't change in the same instant.
-Visitors with reduced motion turned on see frame 1 held.
+just alternate). All three start on their own when the page loads, each
+offset by a third of a step (moon, then menu, then title) so they don't
+change in the same instant. Visitors with reduced motion turned on see
+frame 1 held.
 
-The title is the exception (`data-swap="click"`): it holds still until someone
-clicks the middle dot in "nathan·reichen", which steps it at once and starts
-the animation; another click stops it on whatever frame it's on. The click
-target is `.title-dot`, an invisible 28px circle positioned over the drawn
-dot (50.2% across, 52% down — the dot sits there in all three drawings; if
-the title drawings are redone, re-measure). Clicks elsewhere on the title do
-nothing. With reduced motion on, each click moves one step instead.
+The title used to hold still until someone clicked the middle dot; since
+2026-11-09 it plays on its own like the others (owner's request), and
+clicking it does nothing.
 
 **Hand-drawn frames.** The owner draws three frames per logo and uploads them
 as `1`, `2`, `3` into `images/logos/title/`, `images/logos/moon/`,
