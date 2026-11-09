@@ -1,6 +1,9 @@
 // Film photos for the Film page, shown top-to-bottom in this order (newest
-// first). File names match the 5-digit numbers in the Drive "Film Photos"
-// folder, so 00450.jpg here is "00450 ..." there.
+// first), the same order as the Drive "Film Photos" folder sorted by name.
+// File names match the numbers at the start of the Drive file names, so
+// 00450.jpg here is "00450 ..." there. Nathan slots a photo in between two
+// others by giving it an in-between number (00211 sits between 00210 and
+// 00230; 006001 between 00600 and 00620), so order is by name, not value.
 //
 // To add a photo:
 //   1. Put the image file in images/photography/, or upload it to an image
@@ -17,22 +20,16 @@ window.PHOTOS = [
     { src: 'images/photography/00020.jpg', season: 'Fall', year: 2025 },
     { src: 'images/photography/00030.jpg', season: 'Fall', year: 2025 },
     { src: 'images/photography/00040.jpg', season: 'Fall', year: 2025 },
-    { src: 'images/photography/00050.jpg', season: 'Summer', year: 2024 },
     { src: 'images/photography/00060.jpg', season: 'Summer', year: 2024 },
-    { src: 'images/photography/00070.mp4', poster: 'images/photography/00070.jpg', season: 'Spring', year: 2024 },
-    { src: 'images/photography/00080.mp4', poster: 'images/photography/00080.jpg', season: 'Spring', year: 2024 },
-    { src: 'images/photography/00090.mp4', poster: 'images/photography/00090.jpg', season: 'Spring', year: 2024 },
-    { src: 'images/photography/00100.mp4', poster: 'images/photography/00100.jpg', season: 'Spring', year: 2024 },
-    { src: 'images/photography/00140.mp4', poster: 'images/photography/00140.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00160.mp4', poster: 'images/photography/00160.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00190.mp4', poster: 'images/photography/00190.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00210.mp4', poster: 'images/photography/00210.jpg', season: 'Spring', year: 2024 },
+    { src: 'images/photography/00211.mp4', poster: 'images/photography/00211.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00230.mp4', poster: 'images/photography/00230.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00250.mp4', poster: 'images/photography/00250.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00270.mp4', poster: 'images/photography/00270.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00290.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00300.mp4', poster: 'images/photography/00300.jpg', season: 'Spring', year: 2024 },
-    { src: 'images/photography/00310.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00320.mp4', poster: 'images/photography/00320.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00340.mp4', poster: 'images/photography/00340.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00360.mp4', poster: 'images/photography/00360.jpg', season: 'Spring', year: 2024 },
@@ -43,29 +40,28 @@ window.PHOTOS = [
     { src: 'images/photography/00460.mp4', poster: 'images/photography/00460.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00480.mp4', poster: 'images/photography/00480.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00500.jpg', season: 'Spring', year: 2024 },
-    { src: 'images/photography/00510.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00520.mp4', poster: 'images/photography/00520.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00530.mp4', poster: 'images/photography/00530.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00550.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00560.mp4', poster: 'images/photography/00560.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00580.mp4', poster: 'images/photography/00580.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00600.mp4', poster: 'images/photography/00600.jpg', season: 'Spring', year: 2024 },
+    { src: 'images/photography/006001.mp4', poster: 'images/photography/006001.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00620.mp4', poster: 'images/photography/00620.jpg', season: 'Spring', year: 2024 },
-    { src: 'images/photography/00630.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00640.mp4', poster: 'images/photography/00640.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00660.mp4', poster: 'images/photography/00660.jpg', season: 'Spring', year: 2024 },
+    { src: 'images/photography/00661.mp4', poster: 'images/photography/00661.jpg', season: 'Spring', year: 2024 },
+    { src: 'images/photography/00662.mp4', poster: 'images/photography/00662.jpg', season: 'Spring', year: 2024 },
+    { src: 'images/photography/00663.mp4', poster: 'images/photography/00663.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00700.mp4', poster: 'images/photography/00700.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00720.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00730.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00740.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00750.jpg', season: 'Spring', year: 2024 },
+    { src: 'images/photography/00751.jpg', season: 'Spring', year: 2024 },
+    { src: 'images/photography/00755.jpg', season: 'Summer', year: 2024 },
     { src: 'images/photography/00760.jpg', season: 'Spring', year: 2024 },
     { src: 'images/photography/00770.jpg', season: 'Spring', year: 2024 },
-    { src: 'images/photography/00780.jpg', season: 'Spring', year: 2024 },
-    { src: 'images/photography/00790.jpg', season: 'Spring', year: 2024 },
-    { src: 'images/photography/00800.jpg', season: 'Spring', year: 2024 },
-    { src: 'images/photography/00810.jpg', season: 'Spring', year: 2024 },
-    { src: 'images/photography/00820.jpg', season: 'Summer', year: 2021 },
     { src: 'images/photography/00830.jpg', season: 'Summer', year: 2021 },
     { src: 'images/photography/00840.jpg', season: 'Summer', year: 2021 },
     { src: 'images/photography/00850.jpg', season: 'Summer', year: 2021 },
