@@ -221,6 +221,24 @@
             opacity: 0.6;
         }
 
+        /* Opening the menu at the top of the page slides the photos (or
+           Super 8 videos) down below its links, so the links sit on the
+           mountains rather than on a photo. The script sets --menu-space to
+           just below the last link when the menu opens. */
+        :root {
+            --menu-space: 160px;
+        }
+
+        .gallery-page,
+        .video-page {
+            transition: padding-top 0.3s ease;
+        }
+
+        body.menu-push .gallery-page,
+        body.menu-push .video-page {
+            padding-top: max(100px, var(--menu-space));
+        }
+
         /* Film page (photo gallery) */
         .gallery-page {
             /* Same space between photos as between photos and the screen edges */
@@ -421,9 +439,18 @@
             isSidebarOpen = !isSidebarOpen;
             menuIconElement.setAttribute('aria-expanded', isSidebarOpen);
             if (isSidebarOpen) {
+                // Room for the links (see "menu-push" in the styles): from
+                // the top of the screen to just below the last one
+                const links = sidebarElement.querySelectorAll('.sidebar-link');
+                const lastLinkBottom = links[links.length - 1].getBoundingClientRect().bottom;
+                document.documentElement.style.setProperty('--menu-space', Math.ceil(lastLinkBottom + 24) + 'px');
+                // Only near the top of the page: further down, sliding the
+                // page would just make the photos on screen jump
+                document.body.classList.toggle('menu-push', window.scrollY < 100);
                 sidebarElement.classList.add('open');
                 menuIconElement.classList.add('open');
             } else {
+                document.body.classList.remove('menu-push');
                 sidebarElement.classList.remove('open');
                 menuIconElement.classList.remove('open');
             }

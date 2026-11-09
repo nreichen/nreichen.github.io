@@ -105,9 +105,9 @@ modes.
 
 The sidebar has no panel: its links sit directly on the background in the
 mode's text color, with the same faint shadow as the icons so they stay
-readable over gallery photos. (On phones, "Super 8" overlaps the first
-photo when the menu is open; in light mode the dark-gray text is hard to
-read there.)
+readable over gallery photos. Opening the menu at the top of a page slides
+the content down below the links (see Sidebar), so they sit on clear
+mountains there.
 
 ## Logos (title, menu, moon)
 
@@ -225,6 +225,17 @@ links. The hide is delayed by the 0.3s slide-out
 (`transition: left 0.3s ease, visibility 0s linear 0.3s`) and lifted at once
 on opening (`transition-delay: 0s` on `.sidebar.open`), so the animation still
 plays both ways.
+
+**Opening the menu slides the page down** (owner's request, 2026-11-09), so
+the links sit on the mountains instead of on the first photo (dark-gray
+link text over a dark photo was unreadable). `toggleSidebar()` sets
+`--menu-space` to 24px below the last link (measured each time, so new
+links are accounted for) and adds `body.menu-push`, which raises the Film
+and Super 8 pages' top padding from 100px to that, animated with the
+slide. Only when opened within 100px of the top; further down, sliding
+would just make the photos on screen jump, so the links sit over photos
+there. The owner explicitly does **not** want a backdrop or a strip of
+the mountain picture behind the links ("I want it to be clear").
 
 Pages are `<main>` sections in `index.html`, switched by the URL hash in
 `showCurrentPage()`: `#super8` shows Super 8; anything else (no hash, `#`,
