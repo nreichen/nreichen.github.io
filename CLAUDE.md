@@ -252,8 +252,10 @@ sidebar aren't duplicated.
   entry is `{ src, season, year, location?, poster? }`. `src` is a repo path
   under `images/photography/` or a full `https://` URL from an image host.
   A `src` ending in `.mp4` is a clip (see below) and `poster` is its still.
-- Current contents (imported 2026-11-06): 231 film photos and 29 RETO "3D"
-  clips, newest first. Files are named by their 5-digit number from the Drive
+- Current contents: 202 film photos and 29 RETO "3D" clips, newest first
+  (imported 2026-11-06 as 231 photos; on 2026-11-09 the owner moved 29 RETO
+  stills out of Film Photos into a "Reto Image Stills" folder, and they were
+  dropped from the site too, leaving gaps in the numbering). Files are named by their 5-digit number from the Drive
   folder (`00450.jpg` is `00450 …` in Drive); the numbers count by tens from
   00010 = newest. Where Google Photos had an `-edited` copy, the site uses it.
   Display order comes from `photos.js`, not the file names, so a newer photo
@@ -261,9 +263,10 @@ sidebar aren't duplicated.
 - Site copies are made from the Drive originals: EXIF rotation baked in
   (00780–00810 were stored sideways with a rotate flag), long edge 1600px,
   progressive JPEG quality 80, metadata stripped (~330 KB each) **except
-  the colour profile**: 29 of the 3D-camera stills (00110–00720) are Display
-  P3 and must keep their ICC profile, or browsers read them as sRGB and they
-  look ~13% less saturated (fixed 2026-11-09; they had been stripped). Files
+  the colour profile**: some 3D-camera stills are Display P3 (29 were; 6
+  remain on the site: 00290, 00450, 00510, 00550, 00630, 00720) and must
+  keep their ICC profile, or browsers read them as sRGB and they look ~13%
+  less saturated (fixed 2026-11-09; they had been stripped). Files
   without a profile, or with plain sRGB, need nothing. Clips are
   silent H.264 MP4 (CRF 23, `+faststart`, ~400 KB) with a first-frame poster
   JPEG of the same number.
@@ -304,6 +307,11 @@ In the owner's Drive, under **Film**:
   copies share their original's number). Photos and clips only.
 - **Film Photos – Takeout data** — the Takeout `.supplemental-metadata.json`
   files (dates, etc.) moved out of the way.
+- **Reto Image Stills** — RETO 3D stills the owner took off the site
+  (2026-11-09). Anything moved out of Film Photos should come off the site.
+- 14 originals that were only un-rotated copies of an `-edited` file were
+  moved to the Drive trash (2026-11-09, owner's request); originals with
+  real edits (colour, crop) were kept.
 - **Film Favorites** — the owner's picks (empty so far; what favorites do
   on the site is undecided).
 
