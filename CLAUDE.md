@@ -278,7 +278,10 @@ sidebar aren't duplicated.
   Michigan (6) — the four places the owner named. The other 178 (Seattle?,
   Hawaii, Glacier, Chicago, Colorado, Yellowstone, Sedona, Montreal,
   Savannah by the look of them) were left with just a number for the owner's
-  pass-over. A Google Doc named `00000 Michigan (Pentax K1000)` at the top
+  pass-over. **Owner's pass-over, in progress:** so far 00010 Washington,
+  00020–00040 Seattle, 00440 and 01010 Michigan (Japan was wrong for 00440),
+  00450–00940 Hawaii, 00960–01000 LA (the owner moved 00950 to `00995` to
+  join that group); 01020 onward still mostly blank. A Google Doc named `00000 Michigan (Pentax K1000)` at the top
   of the folder shows the format and explains it; the sync script ignores
   non-photo files. The original camera file names are kept in
   `tools/film-drive-files.json` (`original`).
