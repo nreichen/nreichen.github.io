@@ -416,6 +416,10 @@ YouTube" link (owner's call) — the player's title and logo click through.
   site just keeps serving the previous version. Re-running the failed job
   has worked every time so far (about a minute). After pushing, check the
   run actually succeeded before telling the owner a change is live.
+  Also check the run's commit (`head_sha`) is the one you pushed: on
+  2026-11-11 a run started 3 seconds after a push was labelled with the
+  previous commit, so the new change may not have been built. If that
+  happens, the next push builds the latest `main`.
 
 - Git LFS does not work for site images — GitHub Pages serves the LFS pointer
   file, not the image.
