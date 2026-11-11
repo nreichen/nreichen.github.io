@@ -222,9 +222,11 @@ SVG icon now. If the drawing is redone, upload a new `n` and rerun the script.
 
 ## Sidebar
 
-Links: Film Photos (`#film`) and Super 8 (`#super8`); the first link said
-just "Film" until 2026-11-11, renamed because Super 8 is film too (owner
-chose "Film Photos" over "35mm" or "Photos"). Film is the home page for now
+Links: 35mm Film (`#film`) and Super 8 (`#super8`). The first link said
+just "Film" until 2026-11-11, renamed because Super 8 is film too (briefly
+"Film Photos", then the owner chose "35mm Film" the same day; everything on
+the page is from 35mm cameras). If medium-format or instant photos are ever
+added, revisit the name. Film is the home page for now
 (owner's request, 2026-11-06), so the old Home link (`#`) was dropped — it
 showed the same page. Add Home back when there's a real home page. More pages
 will be added later.
