@@ -730,6 +730,16 @@
                         events: {
                             onReady: function(event) {
                                 frame.player = event.target;
+                                // No title in super8.js: use the video's
+                                // own title from YouTube
+                                const heading = frame.titleElement;
+                                if (heading && !heading.textContent && event.target.getVideoData) {
+                                    const title = (event.target.getVideoData() || {}).title;
+                                    if (title) {
+                                        heading.textContent = title;
+                                        heading.hidden = false;
+                                    }
+                                }
                                 if (frame.inView && !reduceMotion) frame.player.playVideo();
                             }
                         }
@@ -756,11 +766,16 @@
                 console.warn('Not a YouTube link:', project.youtube);
             }
 
+            // Title from super8.js, or else the YouTube title once the
+            // player has loaded (hidden until then)
+            const heading = document.createElement('h2');
             if (project.title) {
-                const heading = document.createElement('h2');
                 heading.textContent = project.title;
-                article.appendChild(heading);
+            } else {
+                heading.hidden = true;
+                if (id) article.querySelector('.video-frame').titleElement = heading;
             }
+            article.appendChild(heading);
 
             // Same format as the photo captions, e.g. "Summer 2023 · Ann Arbor, MI"
             const when = captionFor(project);

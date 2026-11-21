@@ -5,7 +5,8 @@
 //
 // To add a project, add an entry below:
 //   youtube   any YouTube link (youtu.be/…, youtube.com/watch?v=…) — required
-//   title     optional
+//   title     optional; without one, the page shows the video's own
+//             title from YouTube
 //   season, year, location   optional, shown under the title like the
 //             photo captions ("Summer 2023 · Ann Arbor, MI")
 //   blurb     optional paragraph; a blank line starts a new paragraph
@@ -14,7 +15,7 @@
 window.SUPER8 = [
     {
         youtube: 'https://youtu.be/oFkHPYYVwRY',
-        // title, season/year/location and blurb to come from Nathan
+        // Title comes from YouTube; season/year/location and blurb to come
     },
     // {
     //     youtube: 'https://youtu.be/VIDEO_ID',

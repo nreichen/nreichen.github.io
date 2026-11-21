@@ -393,7 +393,11 @@ YouTube" link (owner's call) — the player's title and logo click through.
 
 - Project list: `super8.js` (`window.SUPER8`), shown in file order. Each entry
   is `{ youtube, title?, season?, year?, location?, blurb?, ratio? }`.
-  `youtube` takes any YouTube link or a bare 11-character ID. In `blurb`, a
+  `youtube` takes any YouTube link or a bare 11-character ID. With no
+  `title`, the page shows the video's own YouTube title (owner's choice,
+  2026-11-21), read from the player (`getVideoData().title`) once it loads;
+  the heading stays hidden until then. This sandbox can't reach YouTube,
+  so the real title can't be checked from here. In `blurb`, a
   blank line (`\n\n`) starts a new paragraph. `ratio: '4 / 3'` makes the frame
   4:3 for videos uploaded without side bars (default 16:9). Empty list shows
   "Super 8 films coming soon."
